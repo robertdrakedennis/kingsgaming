@@ -13,6 +13,7 @@
     <meta name="theme-color" content="#3d6594">
     <link rel="canonical" href="https://kingsgaming.us" />
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    {{--<link rel="stylesheet" href="{{ mix('css/aos.css') }}">--}}
     @yield('custom_css')
     <title>@yield('title')</title>
 </head>
@@ -21,8 +22,8 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-transparent main-nav pt-5 pb-5">
     <div class="container justify-content-center align-items-center">
         <ul class="nav navbar-nav flex-fill w-100 flex-nowrap mx-5">
-            <li class="nav-item pr-4 aos-init aos-animate" data-aos="zoom-in-up" data-aos-delay="150" data-aos-easing="ease-in-out-cubic">
-            <a href="#">
+            <li class="nav-item pr-4">
+            <a href="#" class="aos-init aos-animate" data-aos="zoom-in-up" data-aos-delay="150" data-aos-easing="ease-in-out-cubic">
             <svg enable-background="new 0 0 688 694.8" version="1.1" height="48" width="48" viewBox="0 0 688 694.8" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
             <style type="text/css">
             .st0{fill:#262836;}
@@ -73,8 +74,9 @@
     @yield('content')
 <script src="{{ mix('js/jquery.js') }}"></script>
 <script src="{{ mix('js/app.js') }}"></script>
-<script>
-    AOS.init();
-</script>
+{{--<script src="{{ mix('js/aos.js') }}"></script>--}}
+{{--<script>--}}
+    {{--AOS.init();--}}
+{{--</script>--}}
 </body>
 </html>
