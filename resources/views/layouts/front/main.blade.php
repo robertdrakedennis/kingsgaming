@@ -21,7 +21,7 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-transparent main-nav pt-5 pb-5">
     <div class="container justify-content-center align-items-center">
         <ul class="nav navbar-nav flex-fill w-100 flex-nowrap mx-5">
-            <li class="nav-item pr-4">
+            <li class="nav-item pr-4 aos-init aos-animate" data-aos="zoom-in-up" data-aos-delay="150" data-aos-easing="ease-in-out-cubic">
             <a href="#">
             <svg enable-background="new 0 0 688 694.8" version="1.1" height="48" width="48" viewBox="0 0 688 694.8" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
             <style type="text/css">
@@ -40,34 +40,41 @@
             </svg>
             </a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item active aos-init aos-animate" data-aos="zoom-in-up" data-aos-delay="250" data-aos-easing="ease-in-out-cubic">
                 <a class="nav-link h4 px-4" href="#">Home</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link h4 px-4" href="#">Store</a>
+            <li class="nav-item aos-init aos-animate" data-aos="zoom-in-up" data-aos-delay="350" data-aos-easing="ease-in-out-cubic">
+                <a class="nav-link h4 px-4" href="/store">Store</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item aos-init aos-animate" data-aos="zoom-in-up" data-aos-delay="450" data-aos-easing="ease-in-out-cubic">
+                <a class="nav-link h4 px-4" href="/forums">Community</a>
+            </li>
+            <li class="nav-item aos-init aos-animate" data-aos="zoom-in-up" data-aos-delay="550" data-aos-easing="ease-in-out-cubic">
                 <a class="nav-link h4 px-4" href="#">Stats</a>
             </li>
             <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-white px-4 h4 " href="h#" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Social</a>
             <div class="dropdown-menu fade text-white bg-dark" aria-labelledby="dropdown">
-            <a class="dropdown-item text-white no-hover" href="#">Discord</a>
-            <a class="dropdown-item text-white no-hover" href="#">Steam</a>
+            <a class="dropdown-item text-white no-hover" href="/discord">Discord</a>
+            <a class="dropdown-item text-white no-hover" href="/steam">Steam</a>
             </div>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a class="nav-link" href="#" aria-haspopup="true" aria-expanded="false">
-                <div class="avatar">
-                    <img src="http://rs775.pbsrc.com/albums/yy35/PhoenyxStar/link-1.jpg~c200">
-                </div></a>
-            </li>
-        </ul>
+
+        {{--<ul class="nav navbar-nav navbar-right">--}}
+            {{--<li>--}}
+                {{--<a class="nav-link" href="#" aria-haspopup="true" aria-expanded="false">--}}
+                {{--<div class="avatar">--}}
+                    {{--<img src="http://rs775.pbsrc.com/albums/yy35/PhoenyxStar/link-1.jpg~c200">--}}
+                {{--</div></a>--}}
+            {{--</li>--}}
+        {{--</ul>--}}
     </div>
 </nav>
     @yield('content')
 <script src="{{ mix('js/jquery.js') }}"></script>
 <script src="{{ mix('js/app.js') }}"></script>
+<script>
+    AOS.init();
+</script>
 </body>
 </html>
