@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('front.main');
-});
+Route::get('/', 'IndexController@index');
 
 //Auth::routes();
 

@@ -10,7 +10,8 @@
         "fideloper/proxy": "^4.0",
         "kanalumaddela/laravel-steam-login": "~1.0",
         "laravel/framework": "5.6.*",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "xpaw/php-source-query-class": "^1.0"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
