@@ -20,6 +20,7 @@ Route::get('/steam', 'RedirectController@steamRedirect');
 //Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/leaderboards', 'LeaderboardController@index');
 
 
 // login routes
