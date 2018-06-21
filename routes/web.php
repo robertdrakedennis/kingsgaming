@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'IndexController@index');
+Route::get('/', 'IndexController@index')->name('home');
 
 Route::get('/discord', 'RedirectController@discordRedirect');
 Route::get('/server', 'RedirectController@serverRedirect');
@@ -19,8 +19,8 @@ Route::get('/steam', 'RedirectController@steamRedirect');
 
 //Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/leaderboards', 'LeaderboardController@index');
+//Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/leaderboards', 'LeaderboardController@index')->name('leaderboard');
 
 
 // login routes

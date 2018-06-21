@@ -39,6 +39,7 @@ class IndexController extends Controller
             $Info    = $Query->GetInfo();
             $Players = $Query->GetPlayers();
             $Rules   = $Query->GetRules();
+            $calc = $Info['Players']/$Info['MaxPlayers']*100;
             //dd($discord_users);
             return view('front.main')->with([
                 'Query' => $Query,
@@ -50,6 +51,7 @@ class IndexController extends Controller
                 'discord_channels' => $discord_channels,
                 'discord_users' => $discord_users,
                 'memberCount' => $memberCount,
+                'Calc' => $calc
             ]);
         }
         catch( Exception $e )

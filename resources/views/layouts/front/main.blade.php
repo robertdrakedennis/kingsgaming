@@ -44,16 +44,16 @@
             </a>
             </li>
             <li class="nav-item active aos-init aos-animate" data-aos="zoom-in-up" data-aos-delay="250" data-aos-easing="ease-in-out-cubic">
-                <a class="nav-link h4 px-4" href="#">Home</a>
+                <a class="nav-link h4 px-4" href="{{ route('home') }}">Home</a>
             </li>
             <li class="nav-item aos-init aos-animate" data-aos="zoom-in-up" data-aos-delay="350" data-aos-easing="ease-in-out-cubic">
                 <a class="nav-link h4 px-4" href="/store">Store</a>
             </li>
             <li class="nav-item aos-init aos-animate" data-aos="zoom-in-up" data-aos-delay="450" data-aos-easing="ease-in-out-cubic">
-                <a class="nav-link h4 px-4" href="/forums">Community</a>
+                <a class="nav-link h4 px-4" href="/community">Community</a>
             </li>
             <li class="nav-item aos-init aos-animate" data-aos="zoom-in-up" data-aos-delay="550" data-aos-easing="ease-in-out-cubic">
-                <a class="nav-link h4 px-4" href="#">Stats</a>
+                <a class="nav-link h4 px-4" href="{{route('leaderboard')}}">Leaderboard</a>
             </li>
             <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-white px-4 h4 " href="h#" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Social</a>

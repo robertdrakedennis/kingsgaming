@@ -42,7 +42,7 @@
                             <h5 class="card-title text-center mt-auto">Server: Kingsgaming</h5>
                             <p class="card-text text-center h6 pb-2">Gamemode: DarkRP</p>
                             <div class="progress">
-                                <div class="progress-bar" style="width: {{$Info['Players']}}%" role="progressbar" aria-valuenow="{{$Info['Players']}}" aria-valuemin="0" aria-valuemax="{{$Info['MaxPlayers']}}"></div>
+                                <div class="progress-bar" style="width: {{$Calc}}%" role="progressbar" aria-valuenow="{{$Info['Players']}}" aria-valuemin="0" aria-valuemax="{{$Info['MaxPlayers']}}"></div>
                             </div>
                             <p class="card-text text-center text-muted text-uppercase pt-2">{{$Info['Players']}}/{{$Info['MaxPlayers']}} Players Online</p>
                             <a href="https://kingsgaming.us/server" class="btn btn-outline-light ustify-content-end mt-auto">Connect now!</a>
