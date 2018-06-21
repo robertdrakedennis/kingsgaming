@@ -58,8 +58,8 @@
             <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-white px-4 h4 " href="h#" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Social</a>
             <div class="dropdown-menu fade text-white bg-dark" aria-labelledby="dropdown">
-            <a class="dropdown-item text-white no-hover" href="/discord">Discord</a>
-            <a class="dropdown-item text-white no-hover" href="/steam">Steam</a>
+            <a class="dropdown-item text-white no-hover" href="{{route('discord')}}">Discord</a>
+            <a class="dropdown-item text-white no-hover" href="{{route('steam')}}">Steam</a>
             </div>
         </ul>
 

@@ -33,7 +33,7 @@
                         <div class="card-img-overlay h-100 d-flex flex-column justify-content-center">
                             <h5 class="card-title text-center mt-auto">Discord: {{$discord_svname}}</h5>
                             <p class="card-text text-center h6 pb-2">{{$discord_users}} online right now!</p>
-                            <a href="https://kingsgaming.us/discord" class="btn btn-outline-light ustify-content-end mt-auto">Join our Discord!</a>
+                            <a href="{{route('discord')}}" class="btn btn-outline-light ustify-content-end mt-auto">Join our Discord!</a>
                         </div>
                     </div>
                     <div class="card bg-dark text-white mb-5 h-auto w-65  mx-2 border-0">
@@ -45,7 +45,7 @@
                                 <div class="progress-bar" style="width: {{$Calc}}%" role="progressbar" aria-valuenow="{{$Info['Players']}}" aria-valuemin="0" aria-valuemax="{{$Info['MaxPlayers']}}"></div>
                             </div>
                             <p class="card-text text-center text-muted text-uppercase pt-2">{{$Info['Players']}}/{{$Info['MaxPlayers']}} Players Online</p>
-                            <a href="https://kingsgaming.us/server" class="btn btn-outline-light ustify-content-end mt-auto">Connect now!</a>
+                            <a href="{{route('server')}}" class="btn btn-outline-light ustify-content-end mt-auto">Connect now!</a>
                         </div>
                     </div>
                     <div class="card bg-dark text-white mb-5 h-auto w-65  mx-2 border-0">
@@ -53,7 +53,7 @@
                         <div class="card-img-overlay h-100 d-flex flex-column justify-content-center" style="background: rgba(5,5,5,0.8);">
                             <h5 class="card-title text-center justify-content-center mt-auto">Steamgroup: Kingsgaming</h5>
                             <p class="card-text text-center h6">Total Members: {{ $memberCount }}</p>
-                            <a href="https://kingsgaming.us/steam" class="btn btn-outline-light justify-content-end mt-auto">Join our Community!</a>
+                            <a href="{{route('steam')}}" class="btn btn-outline-light justify-content-end mt-auto">Join our Community!</a>
                         </div>
                     </div>
             </div>

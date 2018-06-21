@@ -13,9 +13,9 @@
 
 Route::get('/', 'IndexController@index')->name('home');
 
-Route::get('/discord', 'RedirectController@discordRedirect');
-Route::get('/server', 'RedirectController@serverRedirect');
-Route::get('/steam', 'RedirectController@steamRedirect');
+Route::get('/discord', 'RedirectController@discordRedirect')->name('discord');
+Route::get('/server', 'RedirectController@serverRedirect')->name('server');
+Route::get('/steam', 'RedirectController@steamRedirect')->name('steam');
 
 //Auth::routes();
 
