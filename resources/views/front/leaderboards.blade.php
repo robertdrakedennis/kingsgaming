@@ -11,14 +11,13 @@
     </style>
 @endsection
 @section('title', 'Kingsgaming - Leaderboards')
-
 @section('content')
     <div class="container">
         <div class="jumbotron d-flex align-items-center bg-transparent text-white">
             <div class="container">
                 <h1 class="display-4 text-center text-uppercase">Kings Gaming</h1>
                 <img src="img/logo-full.svg" class="w-25 h-auto mx-auto justify-content-center d-flex flex-column pt-3 pb-3">
-                <p class="lead text-center">Leaderboards of our top players!</p>
+                <p class="text-center h4">Leaderboards of our top players!</p>
 
                 <div class="table-responsive">
                     <table class="table table table-dark">
@@ -34,20 +33,13 @@
                             <tr>
                                 <td>{{$player->rpname}}</td>
                                 <td>{{$player->uid}}</td>
-                                <td>{{$player->wallet}}</td>
+                                <td>{{number_format($player->wallet)}}</td>
                             </tr>
                         @endforeach
                         {{ $players->links() }}
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="jumbotron d-flex align-items-center bg-transparent text-white">
-            <div class="container">
             </div>
         </div>
     </div>
