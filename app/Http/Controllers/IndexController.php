@@ -16,48 +16,45 @@ class IndexController extends Controller
     public function index()
     {
         $Query = new SourceQuery();
-        try
-        {
-            $xmlstring = file_get_contents('https://steamcommunity.com/groups/KingsgamingRP/memberslistxml?xml=1');
-            $xml = simplexml_load_string($xmlstring);
-            $xmljson = json_encode($xml);
-            $result = json_decode($xmljson,TRUE);
-            $memberCount = $result['memberCount'];
-            $serverid = "254806057321365504";
-            $discord_url = "https://discordapp.com/api/servers/".$serverid."/widget.json";
-            $json = file_get_contents($discord_url);
-            $json_table = json_decode($json, true);
-            $channeltables = $json_table;
-            $discord_svname = $json_table['name'];
-            $discord_channels = $json_table['channels'];
-            $discord_users = count($json_table['members']);;
-            $ip = '198.27.80.155';
-            $port = 27752;
-            $timeout =1;
-            $engine = SourceQuery::SOURCE;
+        $ip = '198.27.80.155';
+        $port = 27752;
+        $timeout = 1;
+        $engine = SourceQuery::SOURCE;
+
+        $serverid = "254806057321365504";
+
+        $steamRawInfo = file_get_contents('https://steamcommunity.com/groups/KingsgamingRP/memberslistxml?xml=1');
+        $steamLoadedInfo = simplexml_load_string($steamRawInfo);
+        $steamJson = json_encode($steamLoadedInfo);
+        $steamGroup = json_decode($steamJson, TRUE);
+
+        $memberCount = $steamGroup['memberCount'];
+        $discord_url = "https://discordapp.com/api/servers/" . $serverid . "/widget.json";
+        $getDiscord = file_get_contents($discord_url);
+        $decodeDiscord = json_decode($getDiscord, true);
+        $discordServerName = $decodeDiscord['name'];
+        $discordChannels = $decodeDiscord['channels'];
+        $discordUsers = count($decodeDiscord['members']);;
+        try {
             $Query->Connect($ip, $port, $timeout, $engine);
-            $Info    = $Query->GetInfo();
-            $Players = $Query->GetPlayers();
-            $Rules   = $Query->GetRules();
-            $calc = $Info['Players']/$Info['MaxPlayers']*100;
+
+            $severInfo = $Query->GetInfo();
+            $serverPlayers = $Query->GetPlayers();
+            $calc = $severInfo['Players'] / $severInfo['MaxPlayers'] * 100;
             return view('front.main')->with([
                 'Query' => $Query,
-                'Info' => $Info,
-                'Players' => $Players,
-                'Rules' => $Rules,
-                'channeltables' => $channeltables,
-                'discord_svname' => $discord_svname,
-                'discord_channels' => $discord_channels,
-                'discord_users' => $discord_users,
+                'serverInfo' => $severInfo,
+                'serverPlayers' => $serverPlayers,
+                'discordServerName' => $discordServerName,
+                'discordChannels' => $discordChannels,
+                'discordUsers' => $discordUsers,
                 'memberCount' => $memberCount,
-                'Calc' => $calc
+                'calc' => $calc
             ]);
-        }
-        catch( Exception $e )
-        {
+        } catch (Exception $e) {
             echo $e->getMessage();
         }
-        $Query->Disconnect();
-
-    }
+            $Query->Disconnect();
+        }
 }
+
