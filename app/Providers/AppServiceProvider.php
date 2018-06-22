@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;                                       // <-- add this
 use kanalumaddela\LaravelSteamLogin\SteamLogin;                            // <-- add this
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Blade;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
         View::share('steam_login', $steam->loginUrl());
         View::share('steam_button_small', SteamLogin::button('small'));
         View::share('steam_button_large', SteamLogin::button('large'));
+
+        Blade::component('modals.showPlayers.modal', 'players');
     }
 
     /**

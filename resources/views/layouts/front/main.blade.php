@@ -80,5 +80,6 @@
 <script>
     AOS.init();
 </script>
+@yield('extra_scripts')
 </body>
 </html>
