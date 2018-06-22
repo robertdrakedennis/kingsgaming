@@ -38,12 +38,12 @@ class IndexController extends Controller
         try {
             $Query->Connect($ip, $port, $timeout, $engine);
 
-            $severInfo = $Query->GetInfo();
+            $serverInfo = $Query->GetInfo();
             $serverPlayers = $Query->GetPlayers();
-            $calc = $severInfo['Players'] / $severInfo['MaxPlayers'] * 100;
+            $calc = $serverInfo['Players'] / $serverInfo['MaxPlayers'] * 100;
             return view('front.main')->with([
                 'Query' => $Query,
-                'serverInfo' => $severInfo,
+                'serverInfo' => $serverInfo,
                 'serverPlayers' => $serverPlayers,
                 'discordServerName' => $discordServerName,
                 'discordChannels' => $discordChannels,

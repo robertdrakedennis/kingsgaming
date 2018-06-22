@@ -31,20 +31,20 @@
                     <div class="card bg-dark text-white mb-5 h-auto w-65 mx-2 border-0">
                         <img class="card-img" src="img/backgrounds/discord.png" alt="Card image">
                         <div class="card-img-overlay h-100 d-flex flex-column justify-content-center">
-                            <h5 class="card-title text-center mt-auto">Discord: {{$discord_svname}}</h5>
-                            <p class="card-text text-center h6 pb-2">{{$discord_users}} online right now!</p>
+                            <h5 class="card-title text-center mt-auto">Discord: {{$discordServerName}}</h5>
+                            <p class="card-text text-center h6 pb-2">{{$discordUsers}} online right now!</p>
                             <a href="{{route('discord')}}" class="btn btn-outline-light ustify-content-end mt-auto">Join our Discord!</a>
                         </div>
                     </div>
                     <div class="card bg-dark text-white mb-5 h-auto w-65  mx-2 border-0">
                         <img class="card-img" src="img/backgrounds/server.jpg"  alt="Card image">
                         <div class="card-img-overlay h-100 d-flex flex-column justify-content-center" style="background: rgba(5,5,5,0.8);">
-                            <h5 class="card-title text-center mt-auto">Server: Kingsgaming</h5>
+                            <h5 class="card-title text-center mt-auto">Server: {{$serverInfo['HostName']}}</h5>
                             <p class="card-text text-center h6 pb-2">Gamemode: DarkRP</p>
                             <div class="progress">
-                                <div class="progress-bar" style="width: {{$Calc}}%" role="progressbar" aria-valuenow="{{$Info['Players']}}" aria-valuemin="0" aria-valuemax="{{$Info['MaxPlayers']}}"></div>
+                                <div class="progress-bar" style="width: {{$calc}}%" role="progressbar" aria-valuenow="{{$serverInfo['Players']}}" aria-valuemin="0" aria-valuemax="{{$serverInfo['MaxPlayers']}}"></div>
                             </div>
-                            <p class="card-text text-center text-muted text-uppercase pt-2">{{$Info['Players']}}/{{$Info['MaxPlayers']}} Players Online</p>
+                            <p class="card-text text-center text-muted text-uppercase pt-2">{{$serverInfo['Players']}}/{{$serverInfo['MaxPlayers']}} Players Online</p>
                             <a href="{{route('server')}}" class="btn btn-outline-light ustify-content-end mt-auto">Connect now!</a>
                         </div>
                     </div>
