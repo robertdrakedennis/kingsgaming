@@ -16875,6 +16875,8 @@ module.exports = __webpack_require__(4);
   Object.defineProperty(exports, '__esModule', { value: true });
 });
 //# sourceMappingURL=bootstrap.bundle.js.map
+
+AOS.init();
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),

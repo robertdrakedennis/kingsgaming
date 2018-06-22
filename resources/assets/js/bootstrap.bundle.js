@@ -6442,3 +6442,5 @@
 
 })));
 //# sourceMappingURL=bootstrap.bundle.js.map
+
+AOS.init();
