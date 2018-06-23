@@ -43,9 +43,6 @@
                             <div class="progress">
                                 <div class="progress-bar progress-bar-striped progress-bar-animated @if($calc < 25) bg-success @elseif($calc > 50) bg-warning @elseif($calc > 75) bg-danger @else bg-primary @endif" style="width: {{$calc}}%" role="progressbar" aria-valuenow="{{$serverInfo['Players']}}" aria-valuemin="0" aria-valuemax="{{$serverInfo['MaxPlayers']}}"></div>
                             </div>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                Launch demo modal
-                            </button>
                             <p class="card-text text-center text-muted text-uppercase pt-2">{{$serverInfo['Players']}}/{{$serverInfo['MaxPlayers']}} Players Online</p>
                             <a href="{{route('server')}}" class="btn btn-outline-light ustify-content-end mt-auto">Connect now!</a>
                         </div>
