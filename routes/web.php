@@ -24,3 +24,7 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout'); // or use t
 
 Route::get('login/steam', 'Auth\SteamLoginController@login')->name('login.steam');
 Route::get('auth/steam', 'Auth\SteamLoginController@handle')->name('auth.steam');
+
+Route::get('/theme', function () {
+    return view('front.theme');
+});

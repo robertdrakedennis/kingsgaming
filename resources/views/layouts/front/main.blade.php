@@ -26,7 +26,7 @@
         <ul class="nav navbar-nav flex-fill w-100 flex-nowrap mx-5">
             <li class="nav-item pr-4">
             <a href="#" data-aos="fade-up" data-aos-delay="150" data-aos-easing="ease-in-out-cubic">
-            <svg enable-background="new 0 0 688 694.8" version="1.1" height="48" width="48" viewBox="0 0 688 694.8" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+            <svg enable-background="new 0 0 688 694.8" version="1.1" height="40" width="40" viewBox="0 0 688 694.8" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
             <style type="text/css">
             .st0{fill:#262836;}
             .st1{fill:#0F1118;}
