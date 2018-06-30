@@ -66,11 +66,11 @@
                 <h4>Helpful links</h4>
                 <ul class="list-unstyled">
                     <li><a href="#" class="text-white-50"></a></li>
-                    <li><a href="#" class="text-white-50">Discord Link</a></li>
-                    <li><a href="#" class="text-white-50">Connect to Server</a></li>
-                    <li><a href="#" class="text-white-50">Forums</a></li>
-                    <li><a href="#" class="text-white-50">News and Updates</a></li>
-                    <li><a href="#" class="text-white-50">Rules</a></li>
+                    <li><a href="https://kingsgaming.us/discord" class="text-white-50">Discord Link</a></li>
+                    <li><a href="https://kingsgaming.us/server" class="text-white-50">Connect to Server</a></li>
+                    <li><a href="https://kingsgaming.us/community" class="text-white-50">Forums</a></li>
+                    <li><a href="https://kingsgaming.us/community/forum/6-announcements/" class="text-white-50">News and Updates</a></li>
+                    <li><a href="https://kingsgaming.us/community/topic/22-official-rules-subject-to-change/" class="text-white-50">Rules</a></li>
                 </ul>
             </div>
         </div>
@@ -78,10 +78,9 @@
             <div class="footer-pad text-white-50">
                 <h4>Helpful links continued</h4>
                 <ul class="list-unstyled">
-                    <li><a href="#"class="text-white-50"></a></li>
-                    <li><a href="#"class="text-white-50">Store</a></li>
-                    <li><a href="#"class="text-white-50">Workshop Link</a></li>
-                    <li><a href="#"class="text-white-50">Apply for Staff</a></li>
+                    <li><a href="https://kingsgaming.us/store/splash.php" class="text-white-50">Store</a></li>
+                    <li><a href="https://steamcommunity.com/sharedfiles/filedetails/?id=1401104376" class="text-white-50">Workshop Link</a></li>
+                    <li><a href="https://kingsgaming.us/community/forum/5-applications/" class="text-white-50">Apply for Staff</a></li>
                 </ul>
             </div>
         </div>
