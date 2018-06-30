@@ -9,3 +9,7 @@ mix.js(
     .sass('resources/assets/sass/bootstrap.scss', 'public/css/app.css')
     .copy('resources/assets/js/jquery.min.js', 'public/js/jquery.js')
     .copyDirectory('resources/assets/img', 'public/img');
+
+if (mix.inProduction()) {
+    mix.version();
+}
