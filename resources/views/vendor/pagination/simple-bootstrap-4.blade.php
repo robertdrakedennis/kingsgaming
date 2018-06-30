@@ -3,22 +3,22 @@
         {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
             <li class="page-item disabled" aria-disabled="true">
-                <span class="page-link bg-dark border-dark text-white">@lang('pagination.previous')</span>
+                <span class="page-link bg-light border-grey text-dark">@lang('pagination.previous')</span>
             </li>
         @else
             <li class="page-item">
-                <a class="page-link bg-dark border-dark text-white" href="{{ $paginator->previousPageUrl() }}" rel="prev">@lang('pagination.previous')</a>
+                <a class="page-link bg-light border-grey text-dark" href="{{ $paginator->previousPageUrl() }}" rel="prev">@lang('pagination.previous')</a>
             </li>
         @endif
 
         {{-- Next Page Link --}}
         @if ($paginator->hasMorePages())
             <li class="page-item">
-                <a class="page-link bg-dark border-dark text-white" href="{{ $paginator->nextPageUrl() }}" rel="next">@lang('pagination.next')</a>
+                <a class="page-link bg-light border-grey text-dark" href="{{ $paginator->nextPageUrl() }}" rel="next">@lang('pagination.next')</a>
             </li>
         @else
             <li class="page-item disabled" aria-disabled="true">
-                <span class="page-link bg-dark border-dark text-white">@lang('pagination.next')</span>
+                <span class="page-link bg-light border-grey text-dark">@lang('pagination.next')</span>
             </li>
         @endif
     </ul>

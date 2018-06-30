@@ -16,50 +16,35 @@
     <link rel="canonical" href="https://kingsgaming.us" />
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link rel="stylesheet" href="{{ mix('css/aos.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     @yield('custom_css')
     <title>@yield('title')</title>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-sm navbar-dark bg-transparent main-nav pt-5 pb-2">
-    <div class="container justify-content-center align-items-center">
-        <ul class="nav navbar-nav flex-fill w-100 flex-nowrap mx-5">
-            <li class="nav-item pr-4">
-            <a href="#" data-aos="fade-up" data-aos-delay="150" data-aos-easing="ease-in-out-cubic">
-            <svg enable-background="new 0 0 688 694.8" version="1.1" height="40" width="40" viewBox="0 0 688 694.8" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
-            <style type="text/css">
-            .st0{fill:#262836;}
-            .st1{fill:#0F1118;}
-            .st2{fill:#FAF6FC;}
-            .st3{fill:#DCD8DE;}
-            </style><path class="st0" d="m0 347.4c0 189.1 151 342.9 339 347.4v-522.9l-41 47h-84l-30-29v190l0.3 0.5h154.2v42s-22.1-21-63.4-21c-40.6 0-66.5 20.3-67.4 21l0.3 0.5-9 153c-84.5-50.5-141-142.9-141-248.5 0-157 125-284.9 281-289.4v-38c-188 4.5-339 158.3-339 347.4z"/>
-            <path class="st1" d="m338.5 380.4h-154.2l23.4 42c0.9-0.7 26.8-21 67.4-21 41.3 0 63.4 21 63.4 21v-42z"/>
-            <path class="st2" d="m349 0v38c156 4.5 281 132.4 281 289.4 0 105.6-56.5 198-141 248.5l-9-153 0.3-0.5c-0.9-0.7-26.8-21-67.4-21-41.3 0-63.4 21-63.4 21v-42h154.2l0.3-0.5v-190l-30 29h-84l-41-47v522.9c188-4.5 339-158.3 339-347.4s-151-342.9-339-347.4z"/>
-            <path class="st3" d="m349.5 380.4v42s22.1-21 63.4-21c40.6 0 66.5 20.3 67.4 21l23.4-42h-154.2z"/>
-            <path class="st0" d="m0 347.4c0 189.1 151 342.9 339 347.4v-522.9l-41 47h-84l-30-29v190l0.3 0.5h154.2v42s-22.1-21-63.4-21c-40.6 0-66.5 20.3-67.4 21l0.3 0.5-9 153c-84.5-50.5-141-142.9-141-248.5 0-157 125-284.9 281-289.4v-38c-188 4.5-339 158.3-339 347.4z"/>
-            <path class="st1" d="m338.5 380.4h-154.2l23.4 42c0.9-0.7 26.8-21 67.4-21 41.3 0 63.4 21 63.4 21v-42z"/>
-            <path class="st2" d="m349 0v38c156 4.5 281 132.4 281 289.4 0 105.6-56.5 198-141 248.5l-9-153 0.3-0.5c-0.9-0.7-26.8-21-67.4-21-41.3 0-63.4 21-63.4 21v-42h154.2l0.3-0.5v-190l-30 29h-84l-41-47v522.9c188-4.5 339-158.3 339-347.4s-151-342.9-339-347.4z"/>
-            <path class="st3" d="m349.5 380.4v42s22.1-21 63.4-21c40.6 0 66.5 20.3 67.4 21l23.4-42h-154.2z"/>
-            </svg>
-            </a>
+<nav class="navbar navbar-expand navbar-dark flex-column flex-md-row bg-transparent pt-3 pb-2 pl-5">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li class="nav-item h-auto navbar-brand" style="width: 2rem">
+                <img src="https://kingsgaming.us/img/logo-full.svg" data-aos="fade-in" data-aos-delay="250" data-aos-easing="ease-in-out-cubic">
             </li>
-            <li class="nav-item active" data-aos="fade-up" data-aos-delay="250" data-aos-easing="ease-in-out-cubic">
-                <a class="nav-link h4 px-4" href="{{ route('home') }}">Home</a>
+            <li class="nav-item {{ Route::currentRouteName() !== 'home' ?: 'active' }} px-2" data-aos="fade-up" data-aos-delay="250" data-aos-easing="ease-in-out-cubic">
+                <a class="nav-link" href="{{ route('home') }}">Home</a>
             </li>
-            <li class="nav-item" data-aos="fade-up" data-aos-delay="350" data-aos-easing="ease-in-out-cubic">
-                <a class="nav-link h4 px-4" href="/store">Store</a>
+            <li class="nav-item px-2" data-aos="fade-up" data-aos-delay="350" data-aos-easing="ease-in-out-cubic">
+                <a class="nav-link" href="/store">Store</a>
             </li>
-            <li class="nav-item" data-aos="fade-up" data-aos-delay="450" data-aos-easing="ease-in-out-cubic">
-                <a class="nav-link h4 px-4" href="/community">Community</a>
+            <li class="nav-item px-2" data-aos="fade-up" data-aos-delay="450" data-aos-easing="ease-in-out-cubic">
+                <a class="nav-link" href="/community">Community</a>
             </li>
-            <li class="nav-item" data-aos="fade-up" data-aos-delay="550" data-aos-easing="ease-in-out-cubic">
-                <a class="nav-link h4 px-4" href="{{route('leaderboard')}}">Leaderboard</a>
+            <li class="nav-item px-2 {{ Route::currentRouteName() !== 'leaderboard' ?: 'active' }}" data-aos="fade-up" data-aos-delay="550" data-aos-easing="ease-in-out-cubic">
+                <a class="nav-link" href="{{route('leaderboard')}}">Leaderboard</a>
             </li>
-            <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-white px-4 h4 " href="#" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-aos="fade-up" data-aos-delay="650" data-aos-easing="ease-in-out-cubic">Social</a>
-            <div class="dropdown-menu fade text-white bg-dark" aria-labelledby="dropdown">
-            <a class="dropdown-item text-white no-hover" href="{{route('discord')}}">Discord</a>
-            <a class="dropdown-item text-white no-hover" href="{{route('steam')}}">Steam</a>
+            <li class="nav-item px-2 dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-aos="fade-up" data-aos-delay="650" data-aos-easing="ease-in-out-cubic">Social</a>
+            <div class="dropdown-menu fade text-black-50 bg-white" aria-labelledby="dropdown">
+            <a class="dropdown-item text-black-50 no-hover" href="{{route('discord')}}">Discord</a>
+            <a class="dropdown-item text-black-50 no-hover" href="{{route('steam')}}">Steam</a>
             </div>
         </ul>
 
@@ -74,6 +59,34 @@
     </div>
 </nav>
     @yield('content')
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 col-sm-6">
+            <div class="footer-pad text-white-50">
+                <h4>Helpful links</h4>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white-50"></a></li>
+                    <li><a href="#" class="text-white-50">Discord Link</a></li>
+                    <li><a href="#" class="text-white-50">Connect to Server</a></li>
+                    <li><a href="#" class="text-white-50">Forums</a></li>
+                    <li><a href="#" class="text-white-50">News and Updates</a></li>
+                    <li><a href="#" class="text-white-50">Rules</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="footer-pad text-white-50">
+                <h4>Helpful links continued</h4>
+                <ul class="list-unstyled">
+                    <li><a href="#"class="text-white-50"></a></li>
+                    <li><a href="#"class="text-white-50">Store</a></li>
+                    <li><a href="#"class="text-white-50">Workshop Link</a></li>
+                    <li><a href="#"class="text-white-50">Apply for Staff</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="{{ mix('js/jquery.js') }}"></script>
 <script src="{{ mix('js/app.js') }}"></script>
 <script src="{{ mix('js/aos.js') }}"></script>

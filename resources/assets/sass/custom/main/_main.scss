@@ -37,3 +37,22 @@ a, a:hover{
 .no-hover:hover{
   background-color: transparent !important;
 }
+
+#logo{
+  animation-duration: 5s;
+  animation-name: animateLogo;
+  animation-iteration-count: infinite;
+}
+
+@keyframes animateLogo{
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+
+    transform: translatey(-20px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
+}

@@ -3,7 +3,10 @@
 @section('custom_css')
     <style>
         body{
-            background: #23272a;
+            background: #121416 url("img/bg.svg") no-repeat top left local;
+            -webkit-background-size: cover;
+            background-size: cover;
+            /*background: #151719 url("https://kingsgaming.us/img/bg.svg");*/
         }
     </style>
 @endsection
@@ -17,7 +20,7 @@
                 <p class="text-center h4" data-aos="fade-in" data-aos-delay="650" data-aos-easing="ease-in-out-cubic">Leaderboards of our top players!</p>
 
                 <div class="table-responsive" data-aos="fade-up" data-aos-delay="150" data-aos-easing="ease-in-out-cubic">
-                    <table class="table table table-dark">
+                    <table class="table bg-brand-darkest-grey text-white border-0 table-borderless table-striped">
                         <thead>
                         <tr>
                             <th scope="col">Name</th>
