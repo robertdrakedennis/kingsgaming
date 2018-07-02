@@ -40,8 +40,11 @@
             <li class="nav-item px-2 {{ Route::currentRouteName() !== 'leaderboard' ?: 'active' }}" data-aos="fade-up" data-aos-delay="550" data-aos-easing="ease-in-out-cubic">
                 <a class="nav-link" href="{{route('leaderboard')}}">Leaderboard</a>
             </li>
+            <li class="nav-item {{ Route::currentRouteName() !== 'staff' ?: 'active' }} px-2" data-aos="fade-up" data-aos-delay="650" data-aos-easing="ease-in-out-cubic">
+                <a class="nav-link" href="{{ route('staff') }}">Staff</a>
+            </li>
             <li class="nav-item px-2 dropdown">
-            <a class="nav-link dropdown-toggle text-white" href="#" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-aos="fade-up" data-aos-delay="650" data-aos-easing="ease-in-out-cubic">Social</a>
+            <a class="nav-link dropdown-toggle text-white" href="#" id="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-aos="fade-up" data-aos-delay="750" data-aos-easing="ease-in-out-cubic">Social</a>
             <div class="dropdown-menu fade text-black-50 bg-white" aria-labelledby="dropdown">
             <a class="dropdown-item text-black-50 no-hover" href="{{route('discord')}}">Discord</a>
             <a class="dropdown-item text-black-50 no-hover" href="{{route('steam')}}">Steam</a>

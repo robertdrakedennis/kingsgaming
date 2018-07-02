@@ -17,6 +17,7 @@ Route::get('/discord', 'RedirectController@discordRedirect')->name('discord');
 Route::get('/server', 'RedirectController@serverRedirect')->name('server');
 Route::get('/steam', 'RedirectController@steamRedirect')->name('steam');
 Route::get('/leaderboards', 'LeaderboardController@index')->name('leaderboard');
+Route::get('/staff', 'StaffController@index')->name('staff');
 
 
 // login routes

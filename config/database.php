@@ -43,8 +43,8 @@ return [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '138.197.175.141'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'root'),
-            'username' => env('DB_USERNAME', 'kings'),
+            'database' => env('DB_DATABASE', 'kings'),
+            'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'cd9945d5b508cd8577e9924b40a87be1ed0538350109fa71'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
@@ -54,7 +54,7 @@ return [
             'engine' => null,
         ],
 
-        'mysql_forums' => [
+        'mysql2' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '138.197.175.141'),
             'port' => env('DB_PORT', '3306'),
@@ -69,12 +69,12 @@ return [
             'engine' => null,
         ],
 
-        'mysql_gmod' => [
+        'mysql3' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '138.197.175.141'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'root'),
-            'username' => env('DB_USERNAME', 'kingsgaming'),
+            'database' => env('DB_DATABASE', 'kingsgaming'),
+            'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'cd9945d5b508cd8577e9924b40a87be1ed0538350109fa71'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
@@ -84,16 +84,31 @@ return [
             'engine' => null,
         ],
 
-        'mysql_store' => [
+        'mysql4' => [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '138.197.175.141'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'root'),
-            'username' => env('DB_USERNAME', 'kings_store'),
+            'database' => env('DB_DATABASE', 'kings_store'),
+            'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'cd9945d5b508cd8577e9924b40a87be1ed0538350109fa71'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
+        'mysql5' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', '138.197.175.141'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'serverguard'),
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', 'cd9945d5b508cd8577e9924b40a87be1ed0538350109fa71'),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_general_ci',
             'prefix' => '',
             'strict' => true,
             'engine' => null,
