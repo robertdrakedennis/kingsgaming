@@ -10,8 +10,7 @@ class LeaderboardController extends Controller
 {
     public function index(){
         $leaderboards = new Leaderboards();
-        $leaderboards->setConnection("mysql5");
-        $leaderboards = DB::connection()->table('darkrp_player')->whereRaw('CHAR_LENGTH(uid) = 17')->orderBy('wallet', 'desc')->simplePaginate(15);
+        $leaderboards = DB::connection('mysql3')->table('darkrp_player')->whereRaw('CHAR_LENGTH(uid) = 17')->orderBy('wallet', 'desc')->simplePaginate(15);
         return view('front.leaderboards')->with([
             'players' => $leaderboards
         ]);
