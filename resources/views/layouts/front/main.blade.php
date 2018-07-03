@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{{ mix('css/aos.css') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     @yield('custom_css')
+    @yield('forum_styles')
     <title>@yield('title')</title>
 </head>
 <body>
@@ -96,5 +97,6 @@
     AOS.init();
 </script>
 @yield('extra_scripts')
+@yield('forum_scripts')
 </body>
 </html>
