@@ -15,7 +15,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'steamid', 'avatar', 'registered_ip'
+        'name',
+        'steamid',
+        'avatar',
+        'registered_ip'
     ];
 
     /**
@@ -24,6 +27,26 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+         'remember_token',
     ];
+
+    /**
+     * Fetch all threads that were created by the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function threads()
+    {
+        return $this->hasMany(Post::class)->latest();
+    }
+
+    /**
+     * Fetch the last published reply for the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function lastReply()
+    {
+        return $this->hasOne(Discussion::class)->latest();
+    }
 }

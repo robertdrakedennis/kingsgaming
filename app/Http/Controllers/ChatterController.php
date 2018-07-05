@@ -1,10 +1,10 @@
 <?php
 
-namespace DevDojo\Chatter\Controllers;
+namespace App\Http\Controllers;
 
-use Auth;
-use DevDojo\Chatter\Helpers\ChatterHelper as Helper;
-use DevDojo\Chatter\Models\Models;
+use Illuminate\Support\Facades\Auth;
+use App\Helpers\ChatterHelper as Helper;
+use App\Models;
 use Illuminate\Routing\Controller as Controller;
 
 class ChatterController extends Controller
@@ -28,10 +28,6 @@ class ChatterController extends Controller
         $discussions = $discussions->paginate($pagination_results);
         
         $categories = Models::category()->get();
-        $categoriesMenu = Helper::categoriesMenu(array_filter($categories->toArray(), function ($item) {
-            return $item['parent_id'] === null;
-        }));
-        
         $chatter_editor = config('chatter.editor');
         
         if ($chatter_editor == 'simplemde') {
@@ -39,7 +35,7 @@ class ChatterController extends Controller
             \App::register('GrahamCampbell\Markdown\MarkdownServiceProvider');
         }
         
-        return view('chatter::home', compact('discussions', 'categories', 'categoriesMenu', 'chatter_editor', 'current_category_id'));
+        return view('chatter::home', compact('discussions', 'categories', 'chatter_editor', 'current_category_id'));
     }
     
     public function login()

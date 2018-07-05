@@ -13,7 +13,7 @@ return [
     */
 
     'routes' => [
-        'home'       => 'community',
+        'home'       => 'forum',
         'discussion' => 'discussion',
         'category'   => 'category',
         'post'       => 'posts',
@@ -124,7 +124,7 @@ return [
     'user' => [
         'namespace'                     => 'App\User',
         'database_field_with_user_name' => 'name',
-        'relative_url_to_profile'       => '/community/profile/{id}',
+        'relative_url_to_profile'       => '/community/profile/{steamid}',
         'relative_url_to_image_assets'  => '',
         'avatar_image_database_field'   => 'avatar',
     ],

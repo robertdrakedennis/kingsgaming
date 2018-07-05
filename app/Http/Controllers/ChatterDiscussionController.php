@@ -1,16 +1,16 @@
 <?php
 
-namespace DevDojo\Chatter\Controllers;
+namespace App\Http\Controllers;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use DevDojo\Chatter\Events\ChatterAfterNewDiscussion;
-use DevDojo\Chatter\Events\ChatterBeforeNewDiscussion;
-use DevDojo\Chatter\Models\Models;
-use Event;
+use App\Events\ChatterAfterNewDiscussion;
+use App\Events\ChatterBeforeNewDiscussion;
+use App\Models;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as Controller;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class ChatterDiscussionController extends Controller
 {

@@ -29,3 +29,4 @@ Route::get('auth/steam', 'Auth\SteamLoginController@handle')->name('auth.steam')
 Route::get('/theme', function () {
     return view('front.theme');
 });
+
