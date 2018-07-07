@@ -54,7 +54,9 @@
   border-style: none;
   resize: none;
   outline: none;
-  overflow: auto; }
+  overflow: auto;
+    background:#fff;
+}
 
 .trumbowyg-box-blur .trumbowyg-editor *, .trumbowyg-box-blur .trumbowyg-editor::before {
   color: transparent !important;
@@ -85,7 +87,7 @@
   width: 25%;
   min-height: 0 !important;
   padding: 0 !important;
-  background: none;
+  background: red;
   opacity: 0 !important; }
 
 .trumbowyg-box.trumbowyg-editor-hidden .trumbowyg-textarea {
