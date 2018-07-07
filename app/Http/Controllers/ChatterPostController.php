@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use DevDojo\Chatter\Events\ChatterAfterNewResponse;
 use DevDojo\Chatter\Events\ChatterBeforeNewResponse;
-use DevDojo\Chatter\Mail\ChatterDiscussionUpdated;
-use DevDojo\Chatter\Models\Models;
-use Event;
+use \App\Models;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as Controller;
 use Illuminate\Support\Facades\Mail;
-use Purifier;
-use Validator;
+use Illuminate\Support\Facades\Validator;
+use LukeTowers\Purifier\Facades\Purifier;
 
 class ChatterPostController extends Controller
 {
@@ -24,18 +23,6 @@ class ChatterPostController extends Controller
      */
     public function index(Request $request)
     {
-        /*$total = 10;
-        $offset = 0;
-        if ($request->total) {
-            $total = $request->total;
-        }
-        if ($request->offset) {
-            $offset = $request->offset;
-        }
-        $posts = Models::post()->with('user')->orderBy('created_at', 'DESC')->take($total)->offset($offset)->get();*/
-
-        // This is another unused route
-        // we return an empty array to not expose user data to the public
         return response()->json([]);
     }
 
@@ -52,14 +39,9 @@ class ChatterPostController extends Controller
         $validator = Validator::make($stripped_tags_body, [
             'body' => 'required|min:10',
         ],[
-			'body.required' => trans('chatter::alert.danger.reason.content_required'),
-			'body.min' => trans('chatter::alert.danger.reason.content_min'),
-		]);
-
-        Event::fire(new ChatterBeforeNewResponse($request, $validator));
-        if (function_exists('chatter_before_new_response')) {
-            chatter_before_new_response($request, $validator);
-        }
+            'body.required' => trans('chatter::alert.danger.reason.content_required'),
+            'body.min' => trans('chatter::alert.danger.reason.content_min'),
+        ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
@@ -71,19 +53,15 @@ class ChatterPostController extends Controller
                 $chatter_alert = [
                     'chatter_alert_type' => 'danger',
                     'chatter_alert'      => trans('chatter::alert.danger.reason.prevent_spam', [
-                                                'minutes' => $minutes,
-                                            ]),
-                    ];
+                        'minutes' => $minutes,
+                    ]),
+                ];
 
                 return back()->with($chatter_alert)->withInput();
             }
         }
 
         $request->request->add(['user_id' => Auth::user()->id]);
-
-        if (config('chatter.editor') == 'simplemde'):
-            $request->request->add(['markdown' => 1]);
-        endif;
 
         $new_post = Models::post()->create($request->all());
 
@@ -97,11 +75,7 @@ class ChatterPostController extends Controller
         if ($new_post->id) {
             $discussion->last_reply_at = $discussion->freshTimestamp();
             $discussion->save();
-            
-            Event::fire(new ChatterAfterNewResponse($request, $new_post));
-            if (function_exists('chatter_after_new_response')) {
-                chatter_after_new_response($request);
-            }
+
 
             // if email notifications are enabled
             if (config('chatter.email.enabled')) {
@@ -112,14 +86,14 @@ class ChatterPostController extends Controller
             $chatter_alert = [
                 'chatter_alert_type' => 'success',
                 'chatter_alert'      => trans('chatter::alert.success.reason.submitted_to_post'),
-                ];
+            ];
 
             return redirect('/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$category->slug.'/'.$discussion->slug)->with($chatter_alert);
         } else {
             $chatter_alert = [
                 'chatter_alert_type' => 'danger',
                 'chatter_alert'      => trans('chatter::alert.danger.reason.trouble'),
-                ];
+            ];
 
             return redirect('/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$category->slug.'/'.$discussion->slug)->with($chatter_alert);
         }
@@ -162,9 +136,9 @@ class ChatterPostController extends Controller
         $validator = Validator::make($stripped_tags_body, [
             'body' => 'required|min:10',
         ],[
-			'body.required' => trans('chatter::alert.danger.reason.content_required'),
-			'body.min' => trans('chatter::alert.danger.reason.content_min'),
-		]);
+            'body.required' => trans('chatter::alert.danger.reason.content_required'),
+            'body.min' => trans('chatter::alert.danger.reason.content_min'),
+        ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
@@ -175,7 +149,7 @@ class ChatterPostController extends Controller
             if ($post->markdown) {
                 $post->body = $request->body;
             } else {
- 	        $post->body = Purifier::clean($request->body);
+                $post->body = Purifier::clean($request->body);
             }
             $post->save();
 
@@ -189,14 +163,14 @@ class ChatterPostController extends Controller
             $chatter_alert = [
                 'chatter_alert_type' => 'success',
                 'chatter_alert'      => trans('chatter::alert.success.reason.updated_post'),
-                ];
+            ];
 
             return redirect('/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$category->slug.'/'.$discussion->slug)->with($chatter_alert);
         } else {
             $chatter_alert = [
                 'chatter_alert_type' => 'danger',
                 'chatter_alert'      => trans('chatter::alert.danger.reason.update_post'),
-                ];
+            ];
 
             return redirect('/'.config('chatter.routes.home'))->with($chatter_alert);
         }
@@ -209,6 +183,7 @@ class ChatterPostController extends Controller
      * @param  \Illuminate\Http\Request
      *
      * @return \Illuminate\Routing\Redirect
+     * @throws \Exception
      */
     public function destroy($id, Request $request)
     {

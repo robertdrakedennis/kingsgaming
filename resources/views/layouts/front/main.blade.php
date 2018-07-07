@@ -52,18 +52,21 @@
             </div>
         </ul>
 
-        {{--<ul class="nav navbar-nav navbar-right">--}}
-            {{--<li>--}}
-                {{--<a class="nav-link" href="#" aria-haspopup="true" aria-expanded="false">--}}
-                {{--<div class="avatar">--}}
-                    {{--<img src="#">--}}
-                {{--</div></a>--}}
-            {{--</li>--}}
-        {{--</ul>--}}
+@auth
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a class="nav-link" href="{{\App\Helpers\ChatterHelper::userLink(Auth::user())}}" aria-haspopup="true" aria-expanded="false">
+                    <div class="avatar">
+                        <img src="{{Auth::user()->avatar}}">
+                    </div>
+                </a>
+            </li>
+        </ul>
+    @endauth
     </div>
 </nav>
     @yield('content')
-<div class="container">
+<div class="container pt-5">
     <div class="row">
         <div class="col-md-3 col-sm-6">
             <div class="footer-pad text-white-50">
@@ -92,6 +95,10 @@
 </div>
 <script src="{{ mix('js/jquery.js') }}"></script>
 <script src="{{ mix('js/app.js') }}"></script>
+<script src="https://unpkg.com/sweetalert2@7.25.0/dist/sweetalert2.all.js"></script>
+<!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+@include('sweetalert::alert')
 <script src="{{ mix('js/aos.js') }}"></script>
 <script>
     AOS.init();

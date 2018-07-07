@@ -44,7 +44,7 @@ $yellow:  #ffc107 !default;
 $green:   #28a745 !default;
 $teal:    #20c997 !default;
 $cyan:    #17a2b8 !default;
-$brand-primary: #7289da !default;
+$brand-primary: #A779E9 !default;
 $brand-white: #FFF !default;
 $brand-grey: #99aab5 !default;
 $brand-dark-grey: #2c2f33 !default;
@@ -122,7 +122,7 @@ $yiq-text-light:            $white !default;
 $enable-caret:              true !default;
 $enable-rounded:            true !default;
 $enable-shadows:            false !default;
-$enable-gradients:          true !default;
+$enable-gradients:          false !default;
 $enable-transitions:        true !default;
 $enable-hover-media-query:  false !default; // Deprecated, no longer affects any compiled CSS
 $enable-grid-classes:       true !default;
@@ -229,9 +229,9 @@ $line-height-sm:              1.5 !default;
 $border-width:                1px !default;
 $border-color:                $gray-300 !default;
 
-$border-radius:               .25rem !default;
-$border-radius-lg:            .3rem !default;
-$border-radius-sm:            .2rem !default;
+$border-radius:               0.1875rem !default;
+$border-radius-lg:            0.3125rem !default;
+$border-radius-sm:            0.625rem !default;
 
 $box-shadow-sm:               0 .125rem .25rem rgba($black, .075) !default;
 $box-shadow:                  0 .5rem 1rem rgba($black, .15) !default;
@@ -809,9 +809,9 @@ $modal-header-border-width:         $modal-content-border-width !default;
 $modal-footer-border-width:         $modal-header-border-width !default;
 $modal-header-padding:              1rem !default;
 
-$modal-lg:                          800px !default;
-$modal-md:                          500px !default;
-$modal-sm:                          300px !default;
+$modal-lg:                          75% !default;
+$modal-md:                          65% !default;
+$modal-sm:                          50% !default;
 
 $modal-transition:                  transform .3s ease-out !default;
 

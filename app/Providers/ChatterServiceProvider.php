@@ -128,6 +128,12 @@ class ChatterServiceProvider extends ServiceProvider
                     'middleware' => $middleware('discussion.show'),
                 ]);
 
+                Route::post('{category}/{slug}', [
+                    'as'         => 'destroy',
+                    'uses'       => 'ChatterDiscussionController@destroy',
+                    'middleware' => $middleware('discussion.destroy'),
+                ]);
+
                 // Add user notification to discussion
                 Route::post('{category}/{slug}/email', [
                     'as'         => 'email',
