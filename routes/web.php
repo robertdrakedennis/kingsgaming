@@ -30,4 +30,4 @@ Route::get('/theme', function () {
     return view('front.theme');
 });
 
-Route::get('alert/{AlertType}' ,'sweetalertController@alert')->name('alert');
+Route::get('/forums/profile/{steamid}', 'ProfileController@show')->name('profile');

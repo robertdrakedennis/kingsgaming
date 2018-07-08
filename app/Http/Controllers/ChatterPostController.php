@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use DevDojo\Chatter\Events\ChatterAfterNewResponse;
@@ -122,12 +123,30 @@ class ChatterPostController extends Controller
         }
     }
 
+
+    /**
+     * Show the form for editing the specified resource.
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $post =  Post::findOrFail($id);
+
+        //check for correct user
+        if(Auth::user()->id !== $post->user_id){
+            return view('front.main')->with('error', 'Unauthorized page');
+        }
+
+        return view('front.editPost')->with([
+            'post' => $post
+        ]);
+    }
+
     /**
      * Update the specified resource in storage.
-     *
      * @param \Illuminate\Http\Request $request
      * @param int                      $id
-     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)

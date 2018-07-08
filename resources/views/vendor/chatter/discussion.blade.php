@@ -46,7 +46,7 @@
                 </div>
                 <div class="flex-column flex-fill my-auto p-2">
                     <h3 class="my-auto text-white">{{ $discussion->title }}</h3>
-                   <div class="d-flex flex-column">
+                   <div class="flex-column">
                        <a  class="pr-1" href="/{{ Config::get('chatter.routes.home') }}/{{ Config::get('chatter.routes.category') }}/{{ $discussion->category->slug }}">Category: {{ $discussion->category->name }}</a>
                        <div class="text-white-50">by: {{$author[0]->name}}</div>
                    </div>
@@ -98,8 +98,8 @@
                 @if($loop->first)
                     <div class="bg-brand-darkest-grey mb-5 rounded">
                         <div class="d-flex flex-row">
-                            <div class="flex-column mx-auto p-3 author-overlay">
-                                <div class="avatar" style="width: 10rem; height: 10rem;">
+                            <div class="flex-column mx-auto p-5 author-overlay">
+                                <div class="avatar" style="width: 6rem; height: auto;">
                                     @if(Config::get('chatter.user.avatar_image_database_field'))
                                         @if( (substr($post->user->{$db_field}, 0, 7) == 'http://') || (substr($post->user->{$db_field}, 0, 8) == 'https://') )
                                             <img src="{{ $post->user->{$db_field}  }}">
@@ -123,16 +123,20 @@
                                     {!! $post->body !!}
                                 </div>
                                 <div class="d-flex flex-row p-2 align-items-end ml-auto">
-                                    <div class="px-1">
-                                        <div class="btn btn-primary text-white-50 edit-post">
-                                            <i class="chatter-edit"></i> @lang('chatter::messages.words.edit')
+                                    @if(!Auth::guest() && (Auth::user()->id == $post->user->id))
+                                        <div class="px-1">
+                                            <div class="btn btn-primary text-white-50 edit-post">
+                                                <a href="{{ url(Config::get('chatter.routes.home') . '/posts/' . $post->id . '/edit')}}" class="text-light">
+                                                    <i class="chatter-edit"></i> @lang('chatter::messages.words.edit')
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <form class="px-1 m-0" action="{{ action('ChatterPostController@destroy',$post->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
+                                        <form class="px-1 m-0" action="{{ action('ChatterPostController@destroy',$post->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -140,8 +144,8 @@
                 @else
                     <div class="bg-brand-darkest-grey mb-5 rounded">
                         <div class="d-flex flex-row">
-                            <div class="flex-column mx-auto p-3 author-overlay">
-                                <div class="avatar" style="width: 10rem; height: 10rem;">
+                            <div class="flex-column mx-auto p-5 author-overlay">
+                                <div class="avatar" style="width: 6rem; height: auto;">
                                     @if(Config::get('chatter.user.avatar_image_database_field'))
                                         @if( (substr($post->user->{$db_field}, 0, 7) == 'http://') || (substr($post->user->{$db_field}, 0, 8) == 'https://') )
                                             <img src="{{ $post->user->{$db_field}  }}">
@@ -165,16 +169,20 @@
                                     {!! $post->body !!}
                                 </div>
                                 <div class="d-flex flex-row p-2 align-items-end ml-auto">
-                                    <div class="px-1">
-                                        <div class="btn btn-primary text-white-50 edit-post">
-                                            <i class="chatter-edit"></i> @lang('chatter::messages.words.edit')
+                                    @if(!Auth::guest() && (Auth::user()->id == $post->user->id))
+                                        <div class="px-1">
+                                            <div class="btn btn-primary text-white-50 edit-post">
+                                                <a href="{{ url(Config::get('chatter.routes.home') . '/posts/' . $post->id . '/edit')}}" class="text-light">
+                                                    <i class="chatter-edit"></i> @lang('chatter::messages.words.edit')
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <form class="px-1 m-0" action="{{ action('ChatterPostController@destroy',$post->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
+                                        <form class="px-1 m-0" action="{{ action('ChatterPostController@destroy',$post->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -229,6 +237,7 @@
     <input type="hidden" id="current_path" value="{{ Request::path() }}">
 
 @stop
+
 
 @section(Config::get('chatter.yields.footer'))
 
