@@ -13,15 +13,6 @@
 @section('title', 'Kingsgaming - Home')
 
 @section('content')
-
-    <div class=”links”>
-        <a href=”{{ route('alert','basic')}}”>basic</a>
-        <a href=”{{ route('alert','success')}}”>success alert</a>
-        <a href=”{{ route('alert','warning')}}”>warning alert</a>
-        <a href=”{{ route('alert','info')}}”>info alert</a>
-        <a href=”{{ route('alert','error')}}”>error</a>
-    </div>
-
     <div class="container-fluid pb-5">
         <div class="jumbotron d-flex align-items-center bg-transparent text-white" data-aos="fade-up" data-aos-delay="150" data-aos-easing="ease-in-out-cubic">
             <div class="container">
