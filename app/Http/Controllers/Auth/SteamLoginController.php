@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 use kanalumaddela\LaravelSteamLogin\SteamLogin;
 
+
 class SteamLoginController extends Controller
 {
     /**
@@ -92,7 +93,14 @@ class SteamLoginController extends Controller
                 'avatar' => $player->avatarLarge, // really bad way to store avatars, you should probably use laravel filesystem and then store the relative path
                 'registered_ip' => $this->request->ip(), //ip address
             ]);
+
+            if($player->steamid == ['']){
+                $user->assignRole('Administrator');
+            }
+            else
+                $user->assignRole('User');
         }
+
 
         return $user;
     }

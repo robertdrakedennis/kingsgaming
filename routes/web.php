@@ -31,3 +31,12 @@ Route::get('/theme', function () {
 });
 
 Route::get('/forums/profile/{steamid}', 'ProfileController@show')->name('profile');
+
+Route::get('/test', 'TestPermissionsController@index');
+
+
+Route::group(['middleware' => ['role:Administrator']], function () {
+    Route::get('/admin', function (){
+        return 'henlo u r admin';
+    });
+});
