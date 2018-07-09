@@ -13,7 +13,7 @@
 @section('title', 'Kingsgaming - Home')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
         <div class="table-responsive">
             <table class="table bg-brand-darkest-grey text-white border-0 table-borderless table-striped">
                 <thead>
@@ -34,44 +34,96 @@
                         <td>{{$user->name}}</td>
                         <td>{{$user->steamid}}</td>
                         <td>{{$user->registered_ip}}</td>
-                        @if($user->hasRole('Administrator'))
-                            <td>Administrator</td>
-                        @elseif($user->hasRole('User'))
-                            <td>User</td>
-                        @elseif($user->hasRole('BannedFromPosting'))
-                            <td>Banned From Posting</td>
-                        @elseif($user->hasRole('BannedFromEverything'))
-                            <td>Banned From Everything</td>
-                        @elseif(($user->hasRole('Administrator')) && $user->hasRole('User')))
-                        <td>Administrator, User</td>
-                        @elseif(($user->hasRole('Administrator')) && $user->hasRole('BannedFromEverything')))
-                        <td>Administrator, Banned</td>
-                        @elseif(($user->hasRole('Administrator')) && $user->hasRole('User')))
-                        <td>Administrator, User, Banned</td>
-                            @else
-                            <td></td>
-                        @endif
                         <td>
+                            @foreach($user->roles as $role)
+                                {{$role->name}},
+                        @endforeach
+                        </td>
+
+                        @if($user->hasRole('BannedFromEverything'))
+                            <td>
+                                <form action="{{ action('AdminPanelController@unbanFromEverything', $user->id) }}" method="POST">
+                                    @csrf
+                                    @method('POST')
+                                    <button type="submit" class="btn btn-danger">Unban from everything</button>
+                                </form>
+                            </td>
+
+                        @elseif($user->hasRole('User'))
+                            <td>
                                 <form action="{{ action('AdminPanelController@banFromEverything', $user->id) }}" method="POST">
                                     @csrf
                                     @method('POST')
                                     <button type="submit" class="btn btn-danger">Ban from everything</button>
                                 </form>
-                        </td>
+                            </td>
+                        @elseif($user->hasRole('Administrator'))
+                            <td>
+                                <form action="#" method="POST">
+                                    @csrf
+                                    @method('POST')
+                                    <button type="submit" class="btn btn-danger" disabled>Ban from everything</button>
+                                </form>
+                            </td>
+                        @elseif($user->hasRole('BannedFromPosting'))
+                            <td>
+                                <form action="{{ action('AdminPanelController@banFromEverything', $user->id) }}" method="POST">
+                                    @csrf
+                                    @method('POST')
+                                    <button type="submit" class="btn btn-danger">Ban from everything</button>
+                                </form>
+                            </td>
+                        @endif
+                        @if($user->hasrole('BannedFromPosting'))
+                            <td>
+                                <form action="{{ action('AdminPanelController@unbanFromPosting', $user->id) }}" method="POST">
+                                    @csrf
+                                    @method('POST')
+                                    <button type="submit" class="btn btn-danger">Unban from posting</button>
+                                </form>
+                            </td>
+                            @elseif($user->hasrole('Administrator'))
                         <td>
+                            <form action="#" method="POST">
+                                @csrf
+                                @method('POST')
+                                <button type="submit" class="btn btn-danger" disabled>Ban from posting</button>
+                            </form>
+                        </td>
+                            @else
+                            <td>
                                 <form action="{{ action('AdminPanelController@banFromPosting', $user->id) }}" method="POST">
                                     @csrf
                                     @method('POST')
                                     <button type="submit" class="btn btn-danger">Ban from posting</button>
                                 </form>
+                            </td>
+                        @endif
+                        @if($user->hasRole('User'))
+                        <td>
+                            <form action="{{ action('AdminPanelController@setRoleAdministrator', $user->id) }}" method="POST">
+                                @csrf
+                                @method('POST')
+                                <button type="submit" class="btn btn-danger">Set Administrator</button>
+                            </form>
                         </td>
-                        {{--<td>--}}
-                            {{--<a href="{{url('/admin/' . $user->id .'/banFromEverything')}}" class="btn btn-danger">Ban from Everything</a>--}}
-
-                        {{--</td>--}}
-                        {{--<td>--}}
-                            {{--<a href="{{url('/admin/' . $user->id .'/banFromPosting')}}" class="btn btn-danger">Ban from Posting</a>--}}
-                        {{--</td>--}}
+                        @elseif($user->hasRole('BannedFromEverything') || $user->hasRole('BannedFromPosting'))
+                            <td>
+                                <form action="#" method="POST">
+                                    @csrf
+                                    @method('POST')
+                                    <button type="submit" class="btn btn-danger" disabled>Unban first...</button>
+                                </form>
+                            </td>
+                            @elseif($user->hasRole('Administrator'))
+                            <td>
+                                <form action="#" method="POST">
+                                    @csrf
+                                    @method('POST')
+                                    <button type="submit" class="btn btn-danger" disabled>Already Admin...</button>
+                                </form>
+                            </td>
+                            @endif
                     </tr>
                 @endforeach
                 {{ $users->links() }}

@@ -78,8 +78,20 @@ class AdminPanelController extends Controller
     public function banFromEverything(Request $request, $id)
     {
         $user = User::findOrFail($id);
+        $admin = [
+            '76561198068281815', //atlas
+            '76561198058526102', //x2
+            '76561198063801015' //uzi
+        ];
+        if(in_array($user->steamid, $admin)){
+            return back();
+        }
+        else
+            foreach ($user->roles as $role) {
+                $user->removeRole($role);
+            }
         $user->assignRole('BannedFromEverything');
-        return view('front.main');
+        return back();
     }
 
     /**
@@ -92,8 +104,20 @@ class AdminPanelController extends Controller
     public function banFromPosting(Request $request, $id)
     {
         $user = User::findOrFail($id);
+        $admin = [
+            '76561198068281815', //atlas
+            '76561198058526102', //x2
+            '76561198063801015' //uzi
+        ];
+        if(in_array($user->steamid, $admin)){
+            return back();
+        }
+        else
+            foreach ($user->roles as $role) {
+                $user->removeRole($role);
+            }
         $user->assignRole('BannedFromPosting');
-        return view('front.main');
+        return back();
     }
 
     /**
@@ -106,8 +130,24 @@ class AdminPanelController extends Controller
     public function unbanFromEverything(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        $user->assignRole('BannedFromEverything');
-        return view('front.main');
+        $admin = [
+            '76561198068281815', //atlas
+            '76561198058526102', //x2
+            '76561198063801015' //uzi
+        ];
+        if(in_array($user->steamid, $admin)){
+            foreach ($user->roles as $role) {
+                $user->removeRole($role);
+            }
+            $user->assignRole('Administrator');
+            return back();
+        }
+        else
+            foreach ($user->roles as $role) {
+                $user->removeRole($role);
+            }
+        $user->assignRole('User');
+        return back();
     }
 
     /**
@@ -120,8 +160,24 @@ class AdminPanelController extends Controller
     public function unbanFromPosting(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        $user->assignRole('BannedFromPosting');
-        return view('front.main');
+        $admin = [
+            '76561198068281815', //atlas
+            '76561198058526102', //x2
+            '76561198063801015' //uzi
+        ];
+        if(in_array($user->steamid, $admin)){
+            foreach ($user->roles as $role) {
+                $user->removeRole($role);
+            }
+            $user->assignRole('Administrator');
+            return back();
+        }
+        else
+            foreach ($user->roles as $role) {
+                $user->removeRole($role);
+            }
+        $user->assignRole('User');
+        return back();
     }
 
     /**
@@ -134,22 +190,37 @@ class AdminPanelController extends Controller
     public function setRoleAdministrator(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        $user->assignRole('BannedFromPosting');
-        return view('front.main');
+        foreach ($user->roles as $role) {
+            $user->removeRole($role);
+        }
+        $user->assignRole('Administrator');
+        return back();
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function setRoleUser(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
-        $user->assignRole('BannedFromPosting');
-        return view('front.main');
-    }
+//    /**
+//     * Update the specified resource in storage.
+//     *
+//     * @param  \Illuminate\Http\Request  $request
+//     * @param  int  $id
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function setRoleUser(Request $request, $id)
+//    {
+//        $user = User::findOrFail($id);
+//        $admin = [
+//            '76561198068281815', //atlas
+//            '76561198058526102', //x2
+//            '76561198063801015' //uzi
+//        ];
+//        if(in_array($user->steamid, $admin)){
+//            return back();
+//        }
+//        else
+//            foreach ($user->roles as $role) {
+//                $user->removeRole($role);
+//            }
+//        $user->assignRole('User');
+//        return back();
+//    }
 
 }
