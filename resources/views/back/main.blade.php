@@ -38,9 +38,37 @@
                             <td>Administrator</td>
                         @elseif($user->hasRole('User'))
                             <td>User</td>
-                        @elseif($user->hasRole('Banned'))
+                        @elseif($user->hasRole('BannedFromPosting'))
                             <td>Banned</td>
+                        @elseif($user->hasRole('BannedFromEverything'))
+                            <td>Banned</td>
+                        @elseif(($user->hasRole('Administrator')) && $user->hasRole('User')))
+                        <td>Administrator, User</td>
+                        @elseif(($user->hasRole('Administrator')) && $user->hasRole('Banned')))
+                        <td>Administrator, Banned</td>
+                        @elseif(($user->hasRole('Administrator')) && $user->hasRole('User')))
+                        <td>Administrator, User, Banned</td>
+                            @else
+                            <td></td>
                         @endif
+                        <td>
+                            <form>
+                                <form action="{{ action('ChatterPostController@banFromEverything', $user->id) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="btn btn-danger">Ban from everything</button>
+                                </form>
+                            </form>
+                        </td>
+                        <td>
+                            <form>
+                                <form action="{{ action('ChatterPostController@banFromPosting', $user->id) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" class="btn btn-danger">Ban from posting</button>
+                                </form>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
                 {{ $users->links() }}

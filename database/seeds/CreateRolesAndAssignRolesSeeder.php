@@ -16,7 +16,6 @@ class CreateRolesAndAssignRolesSeeder extends Seeder
         Permission::create(['name' => 'create posts']);
         Permission::create(['name' => 'edit posts']);
         Permission::create(['name' => 'delete posts']);
-        Permission::create(['name' => 'banned']);
 
         $role = Role::create(['name' => 'Administrator']);
         $role->givePermissionTo(Permission::all());
@@ -24,7 +23,8 @@ class CreateRolesAndAssignRolesSeeder extends Seeder
         $role = Role::create(['name' => 'User']);
         $role->givePermissionTo('create posts');
 
-        $role = Role::create(['name' => 'Banned']);
-        $role->givePermissionTo('banned');
+        $role = Role::create(['name' => 'BannedFromEverything']);
+
+        $role = Role::create(['name' => 'BannedFromPosting']);
     }
 }

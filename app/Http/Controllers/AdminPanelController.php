@@ -33,15 +33,56 @@ class AdminPanelController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $user = User::findOrFail($id)->get();
+
+        return view()->with(
+            ['user', $user]
+        );
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id)->get();
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function banFromEverything(Request $request, $id)
     {
-        //
+        $user = User::findOrFail($id)->get();
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function banFromPosting(Request $request, $id)
+    {
+        $user = User::findOrFail($id)->get();
     }
 
 }
