@@ -56,3 +56,11 @@ a, a:hover{
     transform: translatey(0px);
   }
 }
+
+.btn-brand-primary{
+  color: $brand-white !important;
+}
+
+.author-overlay{
+  background-color: rgba(255,255,255, 0.025) !important;
+}

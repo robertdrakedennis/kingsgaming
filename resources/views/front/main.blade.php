@@ -3,7 +3,7 @@
 @section('custom_css')
     <style>
         body{
-            background: #121416 url("img/bg.svg") no-repeat top left local;
+            background: #121416 url("{{ url('img/bg.svg') }}") no-repeat top left local;
             -webkit-background-size: cover;
             background-size: cover;
             /*background: #151719 url("https://kingsgaming.us/img/bg.svg");*/
@@ -17,7 +17,7 @@
         <div class="jumbotron d-flex align-items-center bg-transparent text-white" data-aos="fade-up" data-aos-delay="150" data-aos-easing="ease-in-out-cubic">
             <div class="container">
                 <h1 class="display-4 text-center text-uppercase">Kings Gaming</h1>
-                <img src="img/logo-full.svg" class="w-25 h-auto mx-auto justify-content-center d-flex flex-column pt-3 pb-3" data-aos="fade-in" data-aos-delay="250" data-aos-easing="ease-in-out-cubic" id="">
+                <img src="{{ url('img/logo-full.svg') }}" class="w-25 h-auto mx-auto justify-content-center d-flex flex-column pt-3 pb-3" data-aos="fade-in" data-aos-delay="250" data-aos-easing="ease-in-out-cubic" id="">
                 <p class="lead text-center"  data-aos-delay="350" data-aos-easing="ease-in-out-cubic">A server filled with custom content and awesome players!</p>
             </div>
         </div>

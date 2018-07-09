@@ -1,7 +1,7 @@
 let mix = require('laravel-mix');
 
 mix.js(
-    ['resources/assets/js/bootstrap.bundle.js',
+    ['resources/assets/js/bootstrap.bundle.js'
     ],
     'public/js/app.js')
     .scripts('resources/assets/js/aos.js', 'public/js/aos.js')

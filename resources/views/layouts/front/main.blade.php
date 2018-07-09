@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{{ mix('css/aos.css') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     @yield('custom_css')
+    @yield('forum_styles')
     <title>@yield('title')</title>
 </head>
 <body>
@@ -37,6 +38,9 @@
             <li class="nav-item px-2" data-aos="fade-up" data-aos-delay="450" data-aos-easing="ease-in-out-cubic">
                 <a class="nav-link" href="/community">Community</a>
             </li>
+            <li class="nav-item {{ Route::currentRouteName() !== 'forums' ?: 'active' }} px-2" data-aos="fade-up" data-aos-delay="250" data-aos-easing="ease-in-out-cubic">
+                <a class="nav-link text-warning" href="{{ route('chatter.home') }}">Forums(beta)</a>
+            </li>
             <li class="nav-item px-2 {{ Route::currentRouteName() !== 'leaderboard' ?: 'active' }}" data-aos="fade-up" data-aos-delay="550" data-aos-easing="ease-in-out-cubic">
                 <a class="nav-link" href="{{route('leaderboard')}}">Leaderboard</a>
             </li>
@@ -51,18 +55,24 @@
             </div>
         </ul>
 
-        {{--<ul class="nav navbar-nav navbar-right">--}}
-            {{--<li>--}}
-                {{--<a class="nav-link" href="#" aria-haspopup="true" aria-expanded="false">--}}
-                {{--<div class="avatar">--}}
-                    {{--<img src="#">--}}
-                {{--</div></a>--}}
-            {{--</li>--}}
-        {{--</ul>--}}
+@auth
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a class="nav-link" href="{{\App\Helpers\ChatterHelper::userLink(Auth::user())}}" aria-haspopup="true" aria-expanded="false">
+                    <div class="avatar">
+                        <img src="{{Auth::user()->avatar}}">
+                    </div>
+                </a>
+            </li>
+        </ul>
+    @endauth
+        @guest
+            <a class="btn btn-brand-white" href="{{route('login.steam')}}"><i class="fab fa-steam"></i> Sign in through Steam</a>
+        @endguest
     </div>
 </nav>
     @yield('content')
-<div class="container">
+<div class="container pt-5">
     <div class="row">
         <div class="col-md-3 col-sm-6">
             <div class="footer-pad text-white-50">
@@ -91,10 +101,15 @@
 </div>
 <script src="{{ mix('js/jquery.js') }}"></script>
 <script src="{{ mix('js/app.js') }}"></script>
+<script src="https://unpkg.com/sweetalert2@7.25.0/dist/sweetalert2.all.js"></script>
+<!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
+<script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+@include('sweetalert::alert')
 <script src="{{ mix('js/aos.js') }}"></script>
 <script>
     AOS.init();
 </script>
 @yield('extra_scripts')
+@yield('forum_scripts')
 </body>
 </html>

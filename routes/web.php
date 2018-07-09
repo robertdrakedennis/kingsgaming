@@ -29,3 +29,35 @@ Route::get('auth/steam', 'Auth\SteamLoginController@handle')->name('auth.steam')
 Route::get('/theme', function () {
     return view('front.theme');
 });
+
+Route::get('/forums/profile/{steamid}', 'ProfileController@show')->name('profile');
+
+//Route::get('/test', 'TestPermissionsController@index');
+
+
+Route::group(['middleware' => ['role:Administrator']], function () {
+    Route::resource('/admin', 'AdminPanelController');
+    Route::post('/admin/{id}/banFromEverything', 'AdminPanelController@banFromEverything');
+    Route::post('/admin/{id}/banFromPosting', 'AdminPanelController@banFromPosting');
+    Route::post('/admin/{id}/unbanFromEverything', 'AdminPanelController@unbanFromEverything');
+    Route::post('/admin/{id}/unbanFromPosting', 'AdminPanelController@unbanFromPosting');
+    Route::post('/admin/{id}/setRoleAdministrator', 'AdminPanelController@setRoleAdministrator');
+    Route::post('/admin/{id}/setRoleUser', 'AdminPanelController@setRoleUser');
+});
+
+Route::get('storage/{filename}', function ($filename)
+{
+    $path = storage_path('public/' . $filename);
+
+    if (!File::exists($path)) {
+        abort(404);
+    }
+
+    $file = File::get($path);
+    $type = File::mimeType($path);
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+
+    return $response;
+});
