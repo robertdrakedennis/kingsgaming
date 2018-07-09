@@ -59,6 +59,13 @@ class AdminPanelController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id)->get();
+        if($user->hasRole('User')) {
+            return redirect('admin.index');
+
+        } else
+
+            $user->assignRole('User');
+        return redirect('admin.index');
     }
 
     /**
@@ -70,7 +77,9 @@ class AdminPanelController extends Controller
      */
     public function banFromEverything(Request $request, $id)
     {
-        $user = User::findOrFail($id)->get();
+        $user = User::findOrFail($id);
+        $user->assignRole('BannedFromEverything');
+        return view('front.main');
     }
 
     /**
@@ -82,7 +91,65 @@ class AdminPanelController extends Controller
      */
     public function banFromPosting(Request $request, $id)
     {
-        $user = User::findOrFail($id)->get();
+        $user = User::findOrFail($id);
+        $user->assignRole('BannedFromPosting');
+        return view('front.main');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function unbanFromEverything(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->assignRole('BannedFromEverything');
+        return view('front.main');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function unbanFromPosting(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->assignRole('BannedFromPosting');
+        return view('front.main');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function setRoleAdministrator(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->assignRole('BannedFromPosting');
+        return view('front.main');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function setRoleUser(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->assignRole('BannedFromPosting');
+        return view('front.main');
     }
 
 }

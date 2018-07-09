@@ -37,4 +37,8 @@ Route::get('/test', 'TestPermissionsController@index');
 
 Route::group(['middleware' => ['role:Administrator']], function () {
 Route::resource('/admin', 'AdminPanelController');
+Route::post('/admin/{id}/banFromEverything', 'AdminPanelController@banFromEverything');
+Route::post('/admin/{id}/banFromPosting', 'AdminPanelController@banFromPosting');
+    Route::post('/admin/{id}/unbanFromEverything', 'AdminPanelController@unbanFromEverything');
+    Route::post('/admin/{id}/unbanFromPosting', 'AdminPanelController@unbanFromPosting');
 });

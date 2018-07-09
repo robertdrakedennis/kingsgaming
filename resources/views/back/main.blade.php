@@ -39,12 +39,12 @@
                         @elseif($user->hasRole('User'))
                             <td>User</td>
                         @elseif($user->hasRole('BannedFromPosting'))
-                            <td>Banned</td>
+                            <td>Banned From Posting</td>
                         @elseif($user->hasRole('BannedFromEverything'))
-                            <td>Banned</td>
+                            <td>Banned From Everything</td>
                         @elseif(($user->hasRole('Administrator')) && $user->hasRole('User')))
                         <td>Administrator, User</td>
-                        @elseif(($user->hasRole('Administrator')) && $user->hasRole('Banned')))
+                        @elseif(($user->hasRole('Administrator')) && $user->hasRole('BannedFromEverything')))
                         <td>Administrator, Banned</td>
                         @elseif(($user->hasRole('Administrator')) && $user->hasRole('User')))
                         <td>Administrator, User, Banned</td>
@@ -52,23 +52,26 @@
                             <td></td>
                         @endif
                         <td>
-                            <form>
-                                <form action="{{ action('ChatterPostController@banFromEverything', $user->id) }}" method="POST">
+                                <form action="{{ action('AdminPanelController@banFromEverything', $user->id) }}" method="POST">
                                     @csrf
-                                    @method('PATCH')
+                                    @method('POST')
                                     <button type="submit" class="btn btn-danger">Ban from everything</button>
                                 </form>
-                            </form>
                         </td>
                         <td>
-                            <form>
-                                <form action="{{ action('ChatterPostController@banFromPosting', $user->id) }}" method="POST">
+                                <form action="{{ action('AdminPanelController@banFromPosting', $user->id) }}" method="POST">
                                     @csrf
-                                    @method('PATCH')
+                                    @method('POST')
                                     <button type="submit" class="btn btn-danger">Ban from posting</button>
                                 </form>
-                            </form>
                         </td>
+                        {{--<td>--}}
+                            {{--<a href="{{url('/admin/' . $user->id .'/banFromEverything')}}" class="btn btn-danger">Ban from Everything</a>--}}
+
+                        {{--</td>--}}
+                        {{--<td>--}}
+                            {{--<a href="{{url('/admin/' . $user->id .'/banFromPosting')}}" class="btn btn-danger">Ban from Posting</a>--}}
+                        {{--</td>--}}
                     </tr>
                 @endforeach
                 {{ $users->links() }}

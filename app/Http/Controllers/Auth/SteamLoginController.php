@@ -93,8 +93,12 @@ class SteamLoginController extends Controller
                 'avatar' => $player->avatarLarge, // really bad way to store avatars, you should probably use laravel filesystem and then store the relative path
                 'registered_ip' => $this->request->ip(), //ip address
             ]);
-
-            if($player->steamid == ['']){
+            $admin = [
+                '76561198068281815', //atlas
+                '76561198058526102', //x2
+                '76561198063801015' //uzi
+            ];
+            if(in_array($player->steamid, $admin)){
                 $user->assignRole('Administrator');
             }
             else
