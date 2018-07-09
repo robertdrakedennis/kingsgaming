@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->bigInteger('steamid')->nullable();
             $table->string('avatar')->nullable();
             $table->string('registered_ip')->nullable();
+            $table->string('background_url')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

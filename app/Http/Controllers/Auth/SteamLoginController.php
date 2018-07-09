@@ -92,6 +92,7 @@ class SteamLoginController extends Controller
                 'steamid' => $player->steamid, // steam64 id
                 'avatar' => $player->avatarLarge, // really bad way to store avatars, you should probably use laravel filesystem and then store the relative path
                 'registered_ip' => $this->request->ip(), //ip address
+                'background_url' => url('/img/backgrounds/profilebg.jpg')
             ]);
             $admin = [
                 '76561198068281815', //atlas

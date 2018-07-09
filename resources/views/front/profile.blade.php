@@ -2,7 +2,7 @@
 @section('custom_css')
     <style>
         body{
-            background: #121416 url("{{ url('img/bg.svg') }}") no-repeat top left local;
+            background: #121416 url("{{ url($user->background_url) }}") no-repeat top left local;
             -webkit-background-size: cover;
             background-size: cover;
         }

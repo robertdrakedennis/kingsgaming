@@ -27,9 +27,7 @@ class ProfileController extends Controller
     public function show($steamid)
     {
         $user = new User();
-
-        $profile = DB::table('users')->where('steamid', '=', $steamid)->get();
-        $profile = $profile[0];
+        $profile = DB::table('users')->where('steamid', '=', $steamid)->first();
         return view('front.profile')->with([
         'profile' => $profile,
         ]);
