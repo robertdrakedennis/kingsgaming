@@ -154,22 +154,22 @@
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
-                                        @elseif(Auth::user()->hasrole('Administrator'))
-                                            <div class="px-1">
-                                                <div class="btn btn-primary text-white-50 edit-post">
-                                                    <a href="{{ url(Config::get('chatter.routes.home') . '/posts/' . $post->id . '/edit')}}" class="text-light">
-                                                        <i class="chatter-edit"></i> @lang('chatter::messages.words.edit')
-                                                    </a>
-                                                </div>
+                                    @elseif(Auth::user()->hasrole('Administrator'))
+                                        <div class="px-1">
+                                            <div class="btn btn-primary text-white-50 edit-post">
+                                                <a href="{{ url(Config::get('chatter.routes.home') . '/posts/' . $post->id . '/edit')}}" class="text-light">
+                                                    <i class="chatter-edit"></i> @lang('chatter::messages.words.edit')
+                                                </a>
                                             </div>
-                                            <form class="px-1 m-0" action="{{ action('ChatterPostController@destroy',$post->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Delete</button>
-                                            </form>
-                                        @else
+                                        </div>
+                                        <form class="px-1 m-0" action="{{ action('ChatterPostController@destroy',$post->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    @elseif(!Auth::guest() && (Auth::user()->id == $discussion->user_id) && Auth::User()->hasRole('BannedFromPosting'))
                                         <h3>Banned from posting...</h3>
-                                        @endif
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -194,6 +194,11 @@
                                 </div>
                                 <div class="mx-auto my-auto pt-2 text-center">
                                     <a class="h3 text-light" href="{{ \App\Helpers\ChatterHelper::userLink($post->user) }}">{{ ucfirst($post->user->{Config::get('chatter.user.database_field_with_user_name')}) }}</a>
+                                    <div class="h3 text-light">
+                                        @foreach($post->user->roles as $role)
+                                            {{$role->name}}
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex flex-column flex-fill align-self-stretch">
@@ -202,7 +207,7 @@
                                     {!! $post->body !!}
                                 </div>
                                 <div class="d-flex flex-row p-2 align-items-end ml-auto">
-                                    @if(!Auth::guest() && (Auth::user()->id == $post->user->id))
+                                    @if(!Auth::guest() && (Auth::user()->id == $post->user->id) && Auth::user()->hasrole('User'))
                                         <div class="px-1">
                                             <div class="btn btn-primary text-white-50 edit-post">
                                                 <a href="{{ url(Config::get('chatter.routes.home') . '/posts/' . $post->id . '/edit')}}" class="text-light">
@@ -215,7 +220,21 @@
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
-
+                                    @elseif(Auth::user()->hasrole('Administrator'))
+                                        <div class="px-1">
+                                            <div class="btn btn-primary text-white-50 edit-post">
+                                                <a href="{{ url(Config::get('chatter.routes.home') . '/posts/' . $post->id . '/edit')}}" class="text-light">
+                                                    <i class="chatter-edit"></i> @lang('chatter::messages.words.edit')
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <form class="px-1 m-0" action="{{ action('ChatterPostController@destroy',$post->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    @elseif(!Auth::guest() && (Auth::user()->id == $discussion->user_id) && Auth::User()->hasRole('BannedFromPosting'))
+                                        <h3>Banned from posting...</h3>
                                     @endif
                                 </div>
                             </div>
@@ -228,7 +247,7 @@
 
     <div id="pagination">{{ $posts->links() }}</div>
 
-    @if(!Auth::guest())
+    @if(!Auth::guest() && Auth::user()->hasRole('User') || !Auth::guest() && Auth::user()->hasRole('Administrator'))
         <div class="container-fluid" id="editor">
             <div class="d-flex mx-auto flex-row align-items-center align-items-stretch">
                 <div class="chatter_loader dark" id="new_discussion_loader">
@@ -261,6 +280,8 @@
 
             </div>
         </div><!-- #new_discussion -->
+    @elseif(!Auth::guest() && Auth::user()->hasRole('BannedFromPosting'))
+        <h3>Banned from posting...</h3>
 
     @else
         <div id="login_or_register">

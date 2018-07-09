@@ -11,6 +11,10 @@ class ChatterController extends Controller
 {
     public function index($slug = '')
     {
+        if (Auth::user()->hasRole('BannedFromEverything')){
+            back();
+        }
+
         $pagination_results = config('chatter.paginate.num_of_results');
         
         $discussions = Models::discussion()->with('user')->with('post')->with('postsCount')->with('category')->orderBy(config('chatter.order_by.discussions.order'), config('chatter.order_by.discussions.by'));
