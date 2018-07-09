@@ -11,9 +11,9 @@ class ChatterController extends Controller
 {
     public function index($slug = '')
     {
-        if (Auth::user()->hasRole('BannedFromEverything')){
+        if (!Auth::guest() && Auth::user()->hasRole('BannedFromEverything')){
             back();
-        }
+        } else
 
         $pagination_results = config('chatter.paginate.num_of_results');
         

@@ -44,3 +44,20 @@ Route::group(['middleware' => ['role:Administrator']], function () {
     Route::post('/admin/{id}/setRoleAdministrator', 'AdminPanelController@setRoleAdministrator');
     Route::post('/admin/{id}/setRoleUser', 'AdminPanelController@setRoleUser');
 });
+
+Route::get('storage/{filename}', function ($filename)
+{
+    $path = storage_path('public/' . $filename);
+
+    if (!File::exists($path)) {
+        abort(404);
+    }
+
+    $file = File::get($path);
+    $type = File::mimeType($path);
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+
+    return $response;
+});

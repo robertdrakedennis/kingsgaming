@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Storage;
 
 class CreateUsersTable extends Migration
 {
@@ -19,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->bigInteger('steamid')->nullable();
             $table->string('avatar')->nullable();
             $table->string('registered_ip')->nullable();
-            $table->string('background_url')->nullable();
+            $table->string('background_url')->nullable()->default(Storage::url('profilebg.jpg'));
             $table->rememberToken();
             $table->timestamps();
         });

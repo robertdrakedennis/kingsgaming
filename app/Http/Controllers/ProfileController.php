@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -15,7 +16,9 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return view('errors.404');
+
+        dd(Storage::url('profilebg.jpg'));
+        //return view('errors.404');
     }
 
     /**

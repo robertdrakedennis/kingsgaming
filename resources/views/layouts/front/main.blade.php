@@ -66,6 +66,9 @@
             </li>
         </ul>
     @endauth
+        @guest
+            <a class="btn btn-brand-white" href="{{route('login.steam')}}"><i class="fab fa-steam"></i> Sign in through Steam</a>
+        @endguest
     </div>
 </nav>
     @yield('content')
