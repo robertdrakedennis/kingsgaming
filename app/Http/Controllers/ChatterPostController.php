@@ -134,7 +134,12 @@ class ChatterPostController extends Controller
         $post =  Post::findOrFail($id);
 
         //check for correct user
-        if(Auth::user()->id !== $post->user_id){
+
+        if(Auth::user()->hasRole('Administrator')) {
+            return view('front.editPost')->with([
+                'post' => $post
+            ]);
+        } elseif(Auth::user()->id !== $post->user_id){
             return view('front.main')->with('error', 'Unauthorized page');
         }
 
@@ -164,7 +169,28 @@ class ChatterPostController extends Controller
         }
 
         $post = Models::post()->find($id);
-        if (!Auth::guest() && (Auth::user()->id == $post->user_id)) {
+        if (Auth::user()->hasRole('Administrator')) {
+            if ($post->markdown) {
+                $post->body = $request->body;
+            } else {
+                $post->body = Purifier::clean($request->body);
+            }
+            $post->save();
+
+            $discussion = Models::discussion()->find($post->chatter_discussion_id);
+
+            $category = Models::category()->find($discussion->chatter_category_id);
+            if (!isset($category->slug)) {
+                $category = Models::category()->first();
+            }
+
+            $chatter_alert = [
+                'chatter_alert_type' => 'success',
+                'chatter_alert'      => trans('chatter::alert.success.reason.updated_post'),
+            ];
+
+            return redirect('/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$category->slug.'/'.$discussion->slug)->with($chatter_alert);
+        } elseif (!Auth::guest() && (Auth::user()->id == $post->user_id)) {
             if ($post->markdown) {
                 $post->body = $request->body;
             } else {
@@ -208,7 +234,39 @@ class ChatterPostController extends Controller
     {
         $post = Models::post()->with('discussion')->findOrFail($id);
 
-        if ($request->user()->id !== (int) $post->user_id) {
+        if(Auth::user()->hasrole('Administrator')){
+            if ($post->discussion->posts()->oldest()->first()->id === $post->id) {
+                if(config('chatter.soft_deletes')) {
+                    $post->discussion->posts()->delete();
+                    $post->discussion()->delete();
+                } else {
+                    $post->discussion->posts()->forceDelete();
+                    $post->discussion()->forceDelete();
+                }
+
+                return redirect('/'.config('chatter.routes.home'))->with([
+                    'chatter_alert_type' => 'success',
+                    'chatter_alert'      => trans('chatter::alert.success.reason.destroy_post'),
+                ]);
+            }
+
+            $post->delete();
+
+            $url = '/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$post->discussion->category->slug.'/'.$post->discussion->slug;
+
+            return redirect($url)->with([
+                'chatter_alert_type' => 'success',
+                'chatter_alert'      => trans('chatter::alert.success.reason.destroy_from_discussion'),
+            ]);
+        }
+
+        if (!$request->user()->hasRole('Administrator')) {
+            return redirect('/'.config('chatter.routes.home'))->with([
+                'chatter_alert_type' => 'danger',
+                'chatter_alert'      => trans('chatter::alert.danger.reason.destroy_post'),
+            ]);
+            
+        } elseif ($request->user()->id !== (int) $post->user_id) {
             return redirect('/'.config('chatter.routes.home'))->with([
                 'chatter_alert_type' => 'danger',
                 'chatter_alert'      => trans('chatter::alert.danger.reason.destroy_post'),
