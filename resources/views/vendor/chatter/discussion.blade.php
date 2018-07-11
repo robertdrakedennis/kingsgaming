@@ -112,7 +112,7 @@
                     <div class="bg-brand-darkest-grey mb-5 rounded">
                         <div class="d-flex flex-row">
                             <div class="flex-column mx-auto p-5 author-overlay">
-                                <div class="avatar" style="width: 6rem; height: auto;">
+                                <div class="avatar mx-auto my-auto" style="width: 6rem; height: auto;">
                                     @if(Config::get('chatter.user.avatar_image_database_field'))
                                         @if( (substr($post->user->{$db_field}, 0, 7) == 'http://') || (substr($post->user->{$db_field}, 0, 8) == 'https://') )
                                             <img src="{{ $post->user->{$db_field}  }}">
@@ -178,7 +178,7 @@
                     <div class="bg-brand-darkest-grey mb-5 rounded">
                         <div class="d-flex flex-row">
                             <div class="flex-column mx-auto p-5 author-overlay">
-                                <div class="avatar" style="width: 6rem; height: auto;">
+                                <div class="avatar mx-auto my-auto" style="width: 6rem; height: auto;">
                                     @if(Config::get('chatter.user.avatar_image_database_field'))
                                         @if( (substr($post->user->{$db_field}, 0, 7) == 'http://') || (substr($post->user->{$db_field}, 0, 8) == 'https://') )
                                             <img src="{{ $post->user->{$db_field}  }}">
