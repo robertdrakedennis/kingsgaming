@@ -38,10 +38,11 @@ class ChatterPostController extends Controller
     {
         $stripped_tags_body = ['body' => strip_tags($request->body)];
         $validator = Validator::make($stripped_tags_body, [
-            'body' => 'required|min:10',
+            'body' => 'required|min:10|max:2000',
         ],[
             'body.required' => trans('chatter::alert.danger.reason.content_required'),
             'body.min' => trans('chatter::alert.danger.reason.content_min'),
+            'body.max' => 'The maximum character length is 2000.'
         ]);
 
         if ($validator->fails()) {

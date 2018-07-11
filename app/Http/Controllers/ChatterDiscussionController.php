@@ -53,7 +53,7 @@ class ChatterDiscussionController extends Controller
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|min:5|max:255',
-            'body_content' => 'required|min:10',
+            'body_content' => 'required|min:10|max:5000',
             'chatter_category_id' => 'required',
         ], [
             'title.required' => trans('chatter::alert.danger.reason.title_required'),
@@ -66,6 +66,7 @@ class ChatterDiscussionController extends Controller
             'body_content.required' => trans('chatter::alert.danger.reason.content_required'),
             'body_content.min' => trans('chatter::alert.danger.reason.content_min'),
             'chatter_category_id.required' => trans('chatter::alert.danger.reason.category_required'),
+            'body_content.max' => 'The maximum characters for a post is 5000.',
         ]);
 
 
