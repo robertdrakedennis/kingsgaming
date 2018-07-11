@@ -64,7 +64,7 @@
                     </form>
                 @elseif(!Auth::guest() && (Auth::user()->id == $discussion->user_id) && Auth::User()->hasRole('BannedFromPosting'))
                     <h2>Banned from posting...</h2>
-                @elseif(Auth::User()->hasRole('Administrator'))
+                @elseif(!Auth::guest() &&  Auth::User()->hasRole('Administrator'))
                     <div class="flex-row mx-auto my-auto px-1">
                         <div class="btn btn-primary text-white-50 edit-post">
                             <i class="fas fa-pencil"></i> Coming soon...
@@ -154,7 +154,7 @@
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
-                                    @elseif(Auth::user()->hasrole('Administrator'))
+                                    @elseif(!Auth::guest() && Auth::user()->hasrole('Administrator'))
                                         <div class="px-1">
                                             <div class="btn btn-primary text-white-50 edit-post">
                                                 <a href="{{ url(Config::get('chatter.routes.home') . '/posts/' . $post->id . '/edit')}}" class="text-light">
@@ -220,7 +220,7 @@
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
-                                    @elseif(Auth::user()->hasrole('Administrator'))
+                                    @elseif(!Auth::guest() && Auth::user()->hasrole('Administrator'))
                                         <div class="px-1">
                                             <div class="btn btn-primary text-white-50 edit-post">
                                                 <a href="{{ url(Config::get('chatter.routes.home') . '/posts/' . $post->id . '/edit')}}" class="text-light">
@@ -284,10 +284,7 @@
         <h3>Banned from posting...</h3>
 
     @else
-        <div id="login_or_register">
-            <p>@lang('chatter::messages.auth', ['home' => Config::get('chatter.routes.home')])</p>
-        </div>
-
+            <a class="btn btn-brand-white" href="{{route('login.steam')}}"><i class="fab fa-steam"></i> Sign in through Steam</a>
     @endif
     <input type="hidden" id="current_path" value="{{ Request::path() }}">
 
