@@ -214,7 +214,7 @@ class ChatterPostController extends Controller
     {
         $post = Models::post()->with('discussion')->findOrFail($id);
 
-        if(Auth::user()->hasrole('Administrator')){
+        if($request->user()->hasrole('Administrator')){
             if ($post->discussion->posts()->oldest()->first()->id === $post->id) {
                 if(config('chatter.soft_deletes')) {
                     $post->discussion->posts()->delete();
@@ -224,33 +224,24 @@ class ChatterPostController extends Controller
                     $post->discussion()->forceDelete();
                 }
 
-                return redirect('/'.config('chatter.routes.home'))->with([
-                    'chatter_alert_type' => 'success',
-                    'chatter_alert'      => trans('chatter::alert.success.reason.destroy_post'),
-                ]);
+                toast('Destroyed successfully!','success','top-right');
+                return redirect('/'.config('chatter.routes.home'));
             }
-
             $post->delete();
 
             $url = '/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$post->discussion->category->slug.'/'.$post->discussion->slug;
 
-            return redirect($url)->with([
-                'chatter_alert_type' => 'success',
-                'chatter_alert'      => trans('chatter::alert.success.reason.destroy_from_discussion'),
-            ]);
+            toast('Destroyed successfully!','success','top-right');
+            return redirect($url);
         }
 
         if (!$request->user()->hasRole('Administrator')) {
-            return redirect('/'.config('chatter.routes.home'))->with([
-                'chatter_alert_type' => 'danger',
-                'chatter_alert'      => trans('chatter::alert.danger.reason.destroy_post'),
-            ]);
+            alert()->question('owo', 'What\'s this?');
+            return redirect('/'.config('chatter.routes.home'));
             
         } elseif ($request->user()->id !== (int) $post->user_id) {
-            return redirect('/'.config('chatter.routes.home'))->with([
-                'chatter_alert_type' => 'danger',
-                'chatter_alert'      => trans('chatter::alert.danger.reason.destroy_post'),
-            ]);
+            alert()->question('owo', 'What\'s this?');
+            return redirect('/'.config('chatter.routes.home'));
         }
 
         if ($post->discussion->posts()->oldest()->first()->id === $post->id) {
@@ -261,20 +252,15 @@ class ChatterPostController extends Controller
                 $post->discussion->posts()->forceDelete();
                 $post->discussion()->forceDelete();
             }
-
-            return redirect('/'.config('chatter.routes.home'))->with([
-                'chatter_alert_type' => 'success',
-                'chatter_alert'      => trans('chatter::alert.success.reason.destroy_post'),
-            ]);
+            toast('Destroyed successfully!','success','top-right');
+            return redirect('/'.config('chatter.routes.home'));
         }
 
         $post->delete();
 
         $url = '/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$post->discussion->category->slug.'/'.$post->discussion->slug;
 
-        return redirect($url)->with([
-            'chatter_alert_type' => 'success',
-            'chatter_alert'      => trans('chatter::alert.success.reason.destroy_from_discussion'),
-        ]);
+        toast('Destroyed successfully!','success','top-right');
+        return redirect($url);
     }
 }
