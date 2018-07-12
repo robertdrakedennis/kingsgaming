@@ -62,15 +62,16 @@ class ChatterPostController extends Controller
 
         $discussion = Models::discussion()->find($request->chatter_discussion_id);
 
+        if($request->user()->hasRole('User') && $discussion->locked = 1){
+            alert()->question('owo', 'What\'s this?');
+            return back()->withInput();
+        }
+
         $category = Models::category()->find($discussion->chatter_category_id);
         if (!isset($category->slug)) {
             $category = Models::category()->first();
         }
-
-        if($request->user()->hasRole('User') && $discussion->locked = 1){
-            alert()->question('owo', 'What\'s this?');
-            return back()->withInput();
-        } elseif($request->user()->hasRole('Administrator') && $discussion->locked == 1 || $request->user()->hasRole('User') && $discussion->locked == 0) {
+        if($request->user()->hasRole('Administrator') && $discussion->locked == 1 || $request->user()->hasRole('User') && $discussion->locked == 0 || $request->user()->hasRole('Administrator') && $discussion->locked == 0) {
             if ($new_post->id) {
                 $discussion->last_reply_at = $discussion->freshTimestamp();
                 $discussion->save();
