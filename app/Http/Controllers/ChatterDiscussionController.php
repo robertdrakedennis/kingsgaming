@@ -202,7 +202,10 @@ class ChatterDiscussionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $discussion = Models::discussion()->findOrFail($id);
+        return view('front.editDiscussion')->with([
+            'discussion' => $discussion,
+        ]);
     }
 
     /**

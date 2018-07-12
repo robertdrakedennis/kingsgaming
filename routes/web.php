@@ -52,7 +52,6 @@ Route::get('storage/{filename}', function ($filename)
     if (!File::exists($path)) {
         abort(404);
     }
-
     $file = File::get($path);
     $type = File::mimeType($path);
 
