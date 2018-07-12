@@ -14,6 +14,7 @@ class CreateChatterDiscussionTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->boolean('sticky')->default(false);
             $table->integer('views')->unsigned()->default('0');
+            $table->integer('locked')->unsigned()->default('0');
             $table->boolean('answered')->default(0);
             $table->timestamps();
         });

@@ -75,6 +75,19 @@
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
+                    @if($discussion->locked == 1)
+                        <form class="flex-row mx-auto my-auto px-1" action="{{ action('ChatterDiscussionController@unlockDiscussion', $discussion->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-danger">Unlock Thread</button>
+                        </form>
+                        @else
+                        <form class="flex-row mx-auto my-auto px-1" action="{{ action('ChatterDiscussionController@lockDiscussion', $discussion->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-danger">Lock Thread</button>
+                        </form>
+                        @endif
                 @endif
             </div>
         </div>

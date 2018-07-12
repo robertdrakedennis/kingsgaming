@@ -189,6 +189,7 @@ class ChatterDiscussionController extends Controller
         $discussion->increment('views');
         
         return view('chatter::discussion', compact('discussion', 'posts', 'author','chatter_editor'));
+
     }
 
     /**
@@ -202,6 +203,37 @@ class ChatterDiscussionController extends Controller
     {
         //
     }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function lockDiscussion($id)
+    {
+        $discussion = Models::discussion()->findOrFail($id);
+        $discussion->locked = 1;
+        $discussion->save();
+        return back()->withInput();
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function unlockDiscussion($id)
+    {
+        $discussion = Models::discussion()->findOrFail($id);
+        $discussion->locked = 0;
+        $discussion->save();
+        return back()->withInput();
+    }
+
 
     /**
      * Update the specified resource in storage.
