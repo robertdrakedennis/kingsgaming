@@ -20,7 +20,7 @@
     @endphp
     @if(!Auth::guest())
         <div class="container-fluid" id="editor">
-            <div class="d-flex mx-auto flex-row align-items-center align-items-stretch">
+            <div class="d-flex mx-auto flex-row align-items-center align-items-stretch flex-fill">
                 <div class="chatter_loader dark" id="new_discussion_loader">
                     <div></div>
                 </div>
