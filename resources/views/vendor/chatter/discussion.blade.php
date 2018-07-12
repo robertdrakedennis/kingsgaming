@@ -53,9 +53,9 @@
                 </div>
                 @if(!Auth::guest() && (Auth::user()->id == $discussion->user_id) && Auth::User()->hasRole('User'))
                     <div class="flex-row mx-auto my-auto px-1">
-                        <div class="btn btn-primary text-white-50 edit-post">
+                        <a class="btn btn-primary text-white-50 edit-post">
                             <i class="fas fa-pencil"></i> Coming soon...
-                        </div>
+                        </a>
                     </div>
                     <form class="flex-row mx-auto my-auto px-1" action="{{ action('ChatterDiscussionController@destroy',$discussion->id) }}" method="POST">
                         @csrf
@@ -64,17 +64,32 @@
                     </form>
                 @elseif(!Auth::guest() && (Auth::user()->id == $discussion->user_id) && Auth::User()->hasRole('BannedFromPosting'))
                     <h2>Banned from posting...</h2>
-                @elseif(Auth::User()->hasRole('Administrator'))
+                @elseif(!Auth::guest() &&  Auth::User()->hasRole('Administrator'))
                     <div class="flex-row mx-auto my-auto px-1">
-                        <div class="btn btn-primary text-white-50 edit-post">
-                            <i class="fas fa-pencil"></i> Coming soon...
-                        </div>
+                        <form class="flex-row mx-auto my-auto px-1" action="{{ action('ChatterDiscussionController@edit',$discussion->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-danger">Test</button>
+                        </form>
                     </div>
                     <form class="flex-row mx-auto my-auto px-1" action="{{ action('ChatterDiscussionController@destroy',$discussion->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
+                    @if($discussion->locked == 1)
+                        <form class="flex-row mx-auto my-auto px-1" action="{{ action('ChatterDiscussionController@unlockDiscussion', $discussion->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-danger">Unlock Thread</button>
+                        </form>
+                        @else
+                        <form class="flex-row mx-auto my-auto px-1" action="{{ action('ChatterDiscussionController@lockDiscussion', $discussion->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-danger">Lock Thread</button>
+                        </form>
+                        @endif
                 @endif
             </div>
         </div>
@@ -112,7 +127,7 @@
                     <div class="bg-brand-darkest-grey mb-5 rounded">
                         <div class="d-flex flex-row">
                             <div class="flex-column mx-auto p-5 author-overlay">
-                                <div class="avatar" style="width: 6rem; height: auto;">
+                                <div class="avatar mx-auto my-auto" style="width: 6rem; height: auto;">
                                     @if(Config::get('chatter.user.avatar_image_database_field'))
                                         @if( (substr($post->user->{$db_field}, 0, 7) == 'http://') || (substr($post->user->{$db_field}, 0, 8) == 'https://') )
                                             <img src="{{ $post->user->{$db_field}  }}">
@@ -154,7 +169,7 @@
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
-                                    @elseif(Auth::user()->hasrole('Administrator'))
+                                    @elseif(!Auth::guest() && Auth::user()->hasrole('Administrator'))
                                         <div class="px-1">
                                             <div class="btn btn-primary text-white-50 edit-post">
                                                 <a href="{{ url(Config::get('chatter.routes.home') . '/posts/' . $post->id . '/edit')}}" class="text-light">
@@ -178,7 +193,7 @@
                     <div class="bg-brand-darkest-grey mb-5 rounded">
                         <div class="d-flex flex-row">
                             <div class="flex-column mx-auto p-5 author-overlay">
-                                <div class="avatar" style="width: 6rem; height: auto;">
+                                <div class="avatar mx-auto my-auto" style="width: 6rem; height: auto;">
                                     @if(Config::get('chatter.user.avatar_image_database_field'))
                                         @if( (substr($post->user->{$db_field}, 0, 7) == 'http://') || (substr($post->user->{$db_field}, 0, 8) == 'https://') )
                                             <img src="{{ $post->user->{$db_field}  }}">
@@ -220,7 +235,7 @@
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
-                                    @elseif(Auth::user()->hasrole('Administrator'))
+                                    @elseif(!Auth::guest() && Auth::user()->hasrole('Administrator'))
                                         <div class="px-1">
                                             <div class="btn btn-primary text-white-50 edit-post">
                                                 <a href="{{ url(Config::get('chatter.routes.home') . '/posts/' . $post->id . '/edit')}}" class="text-light">
@@ -247,7 +262,53 @@
 
     <div id="pagination">{{ $posts->links() }}</div>
 
-    @if(!Auth::guest() && Auth::user()->hasRole('User') || !Auth::guest() && Auth::user()->hasRole('Administrator'))
+    @if(!Auth::guest() && $discussion->locked === 1 && Auth::user()->hasRole('User'))
+        <div class="container-fluid">
+            <div class="d-flex flex-row flex-fill">
+                <div class="justify-content-center mx-auto">
+                    <h1 class="text-light">This thread is locked, you can no longer post.</h1>
+                </div>
+            </div>
+        </div>
+        @elseif(!Auth::guest() && $discussion->locked === 1 && Auth::user()->hasRole('Administrator'))
+        <div class="container-fluid" id="editor">
+            <div class="d-flex flex-row flex-fill">
+                <div class="justify-content-center mx-auto">
+                    <h1 class="text-light">This thread is locked, but your permissions allow you to post.</h1>
+                </div>
+            </div>
+            <div class="d-flex mx-auto flex-row align-items-center align-items-stretch">
+                <div class="chatter_loader dark" id="new_discussion_loader">
+                    <div></div>
+                </div>
+                <form class="d-flex mx-auto flex-column" id="chatter_form_editor" action="/{{ Config::get('chatter.routes.home') }}/posts" method="POST">
+                    <div class="avatar mr-2">
+                    @if(Config::get('chatter.user.avatar_image_database_field'))
+                        <?php $db_field = Config::get('chatter.user.avatar_image_database_field'); ?>
+                        <!-- If the user db field contains http:// or https:// we don't need to use the relative path to the image assets -->
+                            @if( (substr(Auth::user()->{$db_field}, 0, 7) == 'http://') || (substr(Auth::user()->{$db_field}, 0, 8) == 'https://') )
+                                <img src="{{ Auth::user()->{$db_field}  }}">
+                            @else
+                                <img src="{{ Config::get('chatter.user.relative_url_to_image_assets') . Auth::user()->{$db_field}  }}">
+                            @endif
+                        @else
+                            <span class="avatar" style="background-color:#<?= \App\Helpers\ChatterHelper::stringToColorCode(Auth::user()->{Config::get('chatter.user.database_field_with_user_name')}) ?>">
+		        					{{ strtoupper(substr(Auth::user()->{Config::get('chatter.user.database_field_with_user_name')}, 0, 1)) }}
+		        				</span>
+                        @endif
+                    </div>
+                    <input type="hidden" name="_token" id="csrf_token_field" value="{{ csrf_token() }}">
+                    <input type="hidden" name="chatter_discussion_id" value="{{ $discussion->id }}">
+                    <!-- BODY -->
+                    <div id="editor">
+                        <textarea class="trumbowyg" name="body" placeholder="Type Your Discussion Here...">{{ old('body') }}</textarea>
+                    </div>
+                    <button id="submit_response" class="btn btn-success pull-right"><i class="chatter-new"></i> @lang('chatter::messages.response.submit')</button>
+                </form>
+
+            </div>
+        </div><!-- #new_discussion -->
+    @elseif(!Auth::guest() && Auth::user()->hasRole('User') || !Auth::guest() && Auth::user()->hasRole('Administrator'))
         <div class="container-fluid" id="editor">
             <div class="d-flex mx-auto flex-row align-items-center align-items-stretch">
                 <div class="chatter_loader dark" id="new_discussion_loader">
@@ -282,12 +343,8 @@
         </div><!-- #new_discussion -->
     @elseif(!Auth::guest() && Auth::user()->hasRole('BannedFromPosting'))
         <h3>Banned from posting...</h3>
-
     @else
-        <div id="login_or_register">
-            <p>@lang('chatter::messages.auth', ['home' => Config::get('chatter.routes.home')])</p>
-        </div>
-
+            <a class="btn btn-brand-white" href="{{route('login.steam')}}"><i class="fab fa-steam"></i> Sign in through Steam</a>
     @endif
     <input type="hidden" id="current_path" value="{{ Request::path() }}">
 

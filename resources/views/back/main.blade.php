@@ -117,10 +117,10 @@
                             </td>
                             @elseif($user->hasRole('Administrator'))
                             <td>
-                                <form action="#" method="POST">
+                                <form action="{{ action('AdminPanelController@setRoleUser', $user->id) }}" method="POST">
                                     @csrf
                                     @method('POST')
-                                    <button type="submit" class="btn btn-danger" disabled>Already Admin...</button>
+                                    <button type="submit" class="btn btn-danger">Demote</button>
                                 </form>
                             </td>
                             @endif

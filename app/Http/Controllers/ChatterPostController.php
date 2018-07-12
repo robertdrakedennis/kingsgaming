@@ -38,10 +38,11 @@ class ChatterPostController extends Controller
     {
         $stripped_tags_body = ['body' => strip_tags($request->body)];
         $validator = Validator::make($stripped_tags_body, [
-            'body' => 'required|min:10',
+            'body' => 'required|min:10|max:2000',
         ],[
             'body.required' => trans('chatter::alert.danger.reason.content_required'),
             'body.min' => trans('chatter::alert.danger.reason.content_min'),
+            'body.max' => 'The maximum character length is 2000.'
         ]);
 
         if ($validator->fails()) {
@@ -50,15 +51,8 @@ class ChatterPostController extends Controller
 
         if (config('chatter.security.limit_time_between_posts')) {
             if ($this->notEnoughTimeBetweenPosts()) {
-                $minutes = trans_choice('chatter::messages.words.minutes', config('chatter.security.time_between_posts'));
-                $chatter_alert = [
-                    'chatter_alert_type' => 'danger',
-                    'chatter_alert'      => trans('chatter::alert.danger.reason.prevent_spam', [
-                        'minutes' => $minutes,
-                    ]),
-                ];
-
-                return back()->with($chatter_alert)->withInput();
+                alert()->info('Please wait..','1 minute before posting again!');
+                return back()->withInput();
             }
         }
 
@@ -68,35 +62,32 @@ class ChatterPostController extends Controller
 
         $discussion = Models::discussion()->find($request->chatter_discussion_id);
 
+        if($request->user()->hasRole('User') && $discussion->locked = 1){
+            alert()->question('owo', 'What\'s this?');
+            return back()->withInput();
+        }
+
         $category = Models::category()->find($discussion->chatter_category_id);
         if (!isset($category->slug)) {
             $category = Models::category()->first();
         }
+        if($request->user()->hasRole('Administrator') && $discussion->locked == 1 || $request->user()->hasRole('User') && $discussion->locked == 0 || $request->user()->hasRole('Administrator') && $discussion->locked == 0) {
+            if ($new_post->id) {
+                $discussion->last_reply_at = $discussion->freshTimestamp();
+                $discussion->save();
 
-        if ($new_post->id) {
-            $discussion->last_reply_at = $discussion->freshTimestamp();
-            $discussion->save();
+                // if email notifications are enabled
+                if (config('chatter.email.enabled')) {
+                    // Send email notifications about new post
+                    $this->sendEmailNotifications($new_post->discussion);
+                }
 
-
-            // if email notifications are enabled
-            if (config('chatter.email.enabled')) {
-                // Send email notifications about new post
-                $this->sendEmailNotifications($new_post->discussion);
+                toast('Replied successfully!','success','top-right');
+                return redirect('/' . config('chatter.routes.home') . '/' . config('chatter.routes.discussion') . '/' . $category->slug . '/' . $discussion->slug);
+            } else {
+                alert()->error('Yikes', 'Something went wrong, contact us if it persists');
+                return redirect('/' . config('chatter.routes.home') . '/' . config('chatter.routes.discussion') . '/' . $category->slug . '/' . $discussion->slug);
             }
-
-            $chatter_alert = [
-                'chatter_alert_type' => 'success',
-                'chatter_alert'      => trans('chatter::alert.success.reason.submitted_to_post'),
-            ];
-
-            return redirect('/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$category->slug.'/'.$discussion->slug)->with($chatter_alert);
-        } else {
-            $chatter_alert = [
-                'chatter_alert_type' => 'danger',
-                'chatter_alert'      => trans('chatter::alert.danger.reason.trouble'),
-            ];
-
-            return redirect('/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$category->slug.'/'.$discussion->slug)->with($chatter_alert);
         }
     }
 
@@ -133,8 +124,12 @@ class ChatterPostController extends Controller
     {
         $post =  Post::findOrFail($id);
 
-        //check for correct user
+        if (!Auth::user()->hasRole('Administrator') || Auth::user()->id !== (int) $post->user_id) {
+            alert()->question('owo', 'What\'s this?');
+            return redirect('/'.config('chatter.routes.home'));
+        }
 
+        //check for correct user
         if(Auth::user()->hasRole('Administrator')) {
             return view('front.editPost')->with([
                 'post' => $post
@@ -156,6 +151,7 @@ class ChatterPostController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $stripped_tags_body = ['body' => strip_tags($request->body)];
         $validator = Validator::make($stripped_tags_body, [
             'body' => 'required|min:10',
@@ -169,6 +165,11 @@ class ChatterPostController extends Controller
         }
 
         $post = Models::post()->find($id);
+
+        if (!$request->user()->hasRole('Administrator') || $request->user()->id !== (int) $post->user_id) {
+            alert()->question('owo', 'What\'s this?');
+            return redirect('/'.config('chatter.routes.home'));
+        }
         if (Auth::user()->hasRole('Administrator')) {
             if ($post->markdown) {
                 $post->body = $request->body;
@@ -183,14 +184,9 @@ class ChatterPostController extends Controller
             if (!isset($category->slug)) {
                 $category = Models::category()->first();
             }
-
-            $chatter_alert = [
-                'chatter_alert_type' => 'success',
-                'chatter_alert'      => trans('chatter::alert.success.reason.updated_post'),
-            ];
-
-            return redirect('/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$category->slug.'/'.$discussion->slug)->with($chatter_alert);
-        } elseif (!Auth::guest() && (Auth::user()->id == $post->user_id)) {
+            toast('Updated successfully!','success','top-right');
+            return redirect('/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$category->slug.'/'.$discussion->slug);
+        } elseif (!Auth::guest() && ($request->user()->id == $post->user_id)) {
             if ($post->markdown) {
                 $post->body = $request->body;
             } else {
@@ -205,19 +201,13 @@ class ChatterPostController extends Controller
                 $category = Models::category()->first();
             }
 
-            $chatter_alert = [
-                'chatter_alert_type' => 'success',
-                'chatter_alert'      => trans('chatter::alert.success.reason.updated_post'),
-            ];
+            toast('Updated successfully!','success','top-right');
 
-            return redirect('/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$category->slug.'/'.$discussion->slug)->with($chatter_alert);
+            return redirect('/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$category->slug.'/'.$discussion->slug);
         } else {
-            $chatter_alert = [
-                'chatter_alert_type' => 'danger',
-                'chatter_alert'      => trans('chatter::alert.danger.reason.update_post'),
-            ];
+            toast('Something went wrong...','error','top-right');
 
-            return redirect('/'.config('chatter.routes.home'))->with($chatter_alert);
+            return redirect('/'.config('chatter.routes.home'));
         }
     }
 
@@ -234,7 +224,12 @@ class ChatterPostController extends Controller
     {
         $post = Models::post()->with('discussion')->findOrFail($id);
 
-        if(Auth::user()->hasrole('Administrator')){
+        if (!$request->user()->hasRole('Administrator') || $request->user()->id !== (int) $post->user_id) {
+            alert()->question('owo', 'What\'s this?');
+            return redirect('/'.config('chatter.routes.home'));
+        }
+
+        if($request->user()->hasrole('Administrator') || $request->user()->id == (int) $post->user_id){
             if ($post->discussion->posts()->oldest()->first()->id === $post->id) {
                 if(config('chatter.soft_deletes')) {
                     $post->discussion->posts()->delete();
@@ -244,33 +239,15 @@ class ChatterPostController extends Controller
                     $post->discussion()->forceDelete();
                 }
 
-                return redirect('/'.config('chatter.routes.home'))->with([
-                    'chatter_alert_type' => 'success',
-                    'chatter_alert'      => trans('chatter::alert.success.reason.destroy_post'),
-                ]);
+                toast('Destroyed successfully!','success','top-right');
+                return redirect('/'.config('chatter.routes.home'));
             }
-
             $post->delete();
 
             $url = '/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$post->discussion->category->slug.'/'.$post->discussion->slug;
 
-            return redirect($url)->with([
-                'chatter_alert_type' => 'success',
-                'chatter_alert'      => trans('chatter::alert.success.reason.destroy_from_discussion'),
-            ]);
-        }
-
-        if (!$request->user()->hasRole('Administrator')) {
-            return redirect('/'.config('chatter.routes.home'))->with([
-                'chatter_alert_type' => 'danger',
-                'chatter_alert'      => trans('chatter::alert.danger.reason.destroy_post'),
-            ]);
-            
-        } elseif ($request->user()->id !== (int) $post->user_id) {
-            return redirect('/'.config('chatter.routes.home'))->with([
-                'chatter_alert_type' => 'danger',
-                'chatter_alert'      => trans('chatter::alert.danger.reason.destroy_post'),
-            ]);
+            toast('Destroyed successfully!','success','top-right');
+            return redirect($url);
         }
 
         if ($post->discussion->posts()->oldest()->first()->id === $post->id) {
@@ -281,20 +258,15 @@ class ChatterPostController extends Controller
                 $post->discussion->posts()->forceDelete();
                 $post->discussion()->forceDelete();
             }
-
-            return redirect('/'.config('chatter.routes.home'))->with([
-                'chatter_alert_type' => 'success',
-                'chatter_alert'      => trans('chatter::alert.success.reason.destroy_post'),
-            ]);
+            toast('Destroyed successfully!','success','top-right');
+            return redirect('/'.config('chatter.routes.home'));
         }
 
         $post->delete();
 
         $url = '/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$post->discussion->category->slug.'/'.$post->discussion->slug;
 
-        return redirect($url)->with([
-            'chatter_alert_type' => 'success',
-            'chatter_alert'      => trans('chatter::alert.success.reason.destroy_from_discussion'),
-        ]);
+        toast('Destroyed successfully!','success','top-right');
+        return redirect($url);
     }
 }

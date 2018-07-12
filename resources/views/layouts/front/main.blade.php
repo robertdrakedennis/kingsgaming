@@ -41,6 +41,11 @@
             <li class="nav-item {{ Route::currentRouteName() !== 'forums' ?: 'active' }} px-2" data-aos="fade-up" data-aos-delay="250" data-aos-easing="ease-in-out-cubic">
                 <a class="nav-link text-warning" href="{{ route('chatter.home') }}">Forums(beta)</a>
             </li>
+            @if(!Auth::guest() && Auth::user()->hasRole('Administrator'))
+                <li class="nav-item {{ Route::currentRouteName() !== 'admin' ?: 'active' }} px-2" data-aos="fade-up" data-aos-delay="250" data-aos-easing="ease-in-out-cubic">
+                    <a class="nav-link text-warning" href="{{ route('admin.index') }}">Admin Panel</a>
+                </li>
+                @endif
             <li class="nav-item px-2 {{ Route::currentRouteName() !== 'leaderboard' ?: 'active' }}" data-aos="fade-up" data-aos-delay="550" data-aos-easing="ease-in-out-cubic">
                 <a class="nav-link" href="{{route('leaderboard')}}">Leaderboard</a>
             </li>

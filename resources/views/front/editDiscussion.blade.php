@@ -13,21 +13,22 @@
     </style>
     <link rel="stylesheet" href="{{url('/vendor/trumbowyg/ui/trumbowyg.css')}}">
     <link rel="stylesheet" href="{{ url('/vendor/devdojo/chatter/assets/vendor/spectrum/spectrum.css') }}">
-    @endsection
+@endsection
 @section('content')
     @php
         $db_field = Config::get('chatter.user.avatar_image_database_field');
     @endphp
     @if(!Auth::guest())
         <div class="container-fluid" id="editor">
-            <div class="d-flex mx-auto flex-row align-items-center align-items-stretch flex-fill">
+            <div class="d-flex mx-auto flex-row align-items-center align-items-stretch">
                 <div class="chatter_loader dark" id="new_discussion_loader">
                     <div></div>
                 </div>
-                    <form class="d-flex mx-auto flex-column" action='/{{ Config::get('chatter.routes.home') }}/posts/{{$post->id}}' method='POST' enctype="multipart/form-data" accept-charset="UTF-8">
-                        {{ csrf_field() }}
-                        @method('PATCH')
-                    <div class="avatar mr-2">
+                <form class="d-flex mx-auto flex-column flex-fill h-100" action='{{action('ChatterDiscussionController@update', $discussion->id)}}' method='POST' enctype="multipart/form-data" accept-charset="UTF-8">
+
+                    {{ csrf_field() }}
+                    @method('PATCH')
+                    <div class="avatar mr-2 mb-3">
                     @if(Config::get('chatter.user.avatar_image_database_field'))
                         <?php $db_field = Config::get('chatter.user.avatar_image_database_field'); ?>
                         <!-- If the user db field contains http:// or https:// we don't need to use the relative path to the image assets -->
@@ -43,14 +44,19 @@
                         @endif
                     </div>
                     <input type="hidden" name="_token" id="csrf_token_field" value="{{ csrf_token() }}">
-                    <input type="hidden" name="chatter_discussion_id" value="{{ $post->id }}">
+                    <input type="hidden" name="chatter_discussion_id" value="{{  $discussion->id }}">
                     <!-- BODY -->
-                    <div id="editor">
-                        <textarea class="trumbowyg" name="body" placeholder="Type Your Discussion Here...">{{ old('body') }}</textarea>
+                    <div class="d-flex flex-row flex-fill">
+                        <h2 class="text-light">Your old title was: <code> {{$discussion->title}} </code> </h2>
                     </div>
-                    <button id="submit_response" class="btn btn-success pull-right"><i class="chatter-new"></i> @lang('chatter::messages.response.submit')</button>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Title</span>
+                        </div>
+                        <input class="form-control" id="title" name="title" placeholder="A simple title..." value="" type="text">
+                    </div>
+                    <button id="submit_response" type="submit" class="btn btn-success pull-right"><i class="chatter-new"></i> @lang('chatter::messages.response.submit')</button>
                 </form>
-
             </div>
         </div><!-- #new_discussion -->
 

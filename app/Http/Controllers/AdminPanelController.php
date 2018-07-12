@@ -60,10 +60,11 @@ class AdminPanelController extends Controller
     {
         $user = User::findOrFail($id)->get();
         if($user->hasRole('User')) {
-            return redirect('admin.index');
+            toast('User is already a user?','error','top-right');
+            return back()->withInput();
 
         } else
-
+            toast('Demoted Successfully!','success','top-right');
             $user->assignRole('User');
         return redirect('admin.index');
     }
@@ -91,7 +92,8 @@ class AdminPanelController extends Controller
                 $user->removeRole($role);
             }
         $user->assignRole('BannedFromEverything');
-        return back();
+        toast('Banned successfully!','success','top-right');
+        return back()->withInput();
     }
 
     /**
@@ -117,7 +119,8 @@ class AdminPanelController extends Controller
                 $user->removeRole($role);
             }
         $user->assignRole('BannedFromPosting');
-        return back();
+        toast('Banned successfully!','success','top-right');
+        return back()->withInput();
     }
 
     /**
@@ -147,7 +150,8 @@ class AdminPanelController extends Controller
                 $user->removeRole($role);
             }
         $user->assignRole('User');
-        return back();
+        toast('Unbanned successfully!','success','top-right');
+        return back()->withInput();
     }
 
     /**
@@ -177,7 +181,8 @@ class AdminPanelController extends Controller
                 $user->removeRole($role);
             }
         $user->assignRole('User');
-        return back();
+        toast('Unbanned successfully!','success','top-right');
+        return back()->withInput();
     }
 
     /**
@@ -194,33 +199,36 @@ class AdminPanelController extends Controller
             $user->removeRole($role);
         }
         $user->assignRole('Administrator');
-        return back();
+        toast('Promoted successfully!','success','top-right');
+        return back()->withInput();
     }
 
-//    /**
-//     * Update the specified resource in storage.
-//     *
-//     * @param  \Illuminate\Http\Request  $request
-//     * @param  int  $id
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function setRoleUser(Request $request, $id)
-//    {
-//        $user = User::findOrFail($id);
-//        $admin = [
-//            '76561198068281815', //atlas
-//            '76561198058526102', //x2
-//            '76561198063801015' //uzi
-//        ];
-//        if(in_array($user->steamid, $admin)){
-//            return back();
-//        }
-//        else
-//            foreach ($user->roles as $role) {
-//                $user->removeRole($role);
-//            }
-//        $user->assignRole('User');
-//        return back();
-//    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function setRoleUser(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $admin = [
+            '76561198068281815', //atlas
+            '76561198058526102', //x2
+            '76561198063801015' //uzi
+        ];
+        if(in_array($user->steamid, $admin)){
+            toast('Can\'t demote this user..!','error','top-right');
+            return back()->withInput();
+        }
+        else
+            foreach ($user->roles as $role) {
+                $user->removeRole($role);
+            }
+        $user->assignRole('User');
+        toast('Demoted successfully!','success','top-right');
+        return back();
+    }
 
 }
