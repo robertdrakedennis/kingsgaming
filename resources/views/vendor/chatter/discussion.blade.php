@@ -260,7 +260,53 @@
 
     <div id="pagination">{{ $posts->links() }}</div>
 
-    @if(!Auth::guest() && Auth::user()->hasRole('User') || !Auth::guest() && Auth::user()->hasRole('Administrator'))
+    @if(!Auth::guest() && $discussion->locked === 1 && Auth::user()->hasRole('User'))
+        <div class="container-fluid">
+            <div class="d-flex flex-row flex-fill">
+                <div class="justify-content-center mx-auto">
+                    <h1 class="text-light">This thread is locked, you can no longer post.</h1>
+                </div>
+            </div>
+        </div>
+        @elseif(!Auth::guest() && $discussion->locked === 1 && Auth::user()->hasRole('Administrator'))
+        <div class="container-fluid" id="editor">
+            <div class="d-flex flex-row flex-fill">
+                <div class="justify-content-center mx-auto">
+                    <h1 class="text-light">This thread is locked, but your permissions allow you to post.</h1>
+                </div>
+            </div>
+            <div class="d-flex mx-auto flex-row align-items-center align-items-stretch">
+                <div class="chatter_loader dark" id="new_discussion_loader">
+                    <div></div>
+                </div>
+                <form class="d-flex mx-auto flex-column" id="chatter_form_editor" action="/{{ Config::get('chatter.routes.home') }}/posts" method="POST">
+                    <div class="avatar mr-2">
+                    @if(Config::get('chatter.user.avatar_image_database_field'))
+                        <?php $db_field = Config::get('chatter.user.avatar_image_database_field'); ?>
+                        <!-- If the user db field contains http:// or https:// we don't need to use the relative path to the image assets -->
+                            @if( (substr(Auth::user()->{$db_field}, 0, 7) == 'http://') || (substr(Auth::user()->{$db_field}, 0, 8) == 'https://') )
+                                <img src="{{ Auth::user()->{$db_field}  }}">
+                            @else
+                                <img src="{{ Config::get('chatter.user.relative_url_to_image_assets') . Auth::user()->{$db_field}  }}">
+                            @endif
+                        @else
+                            <span class="avatar" style="background-color:#<?= \App\Helpers\ChatterHelper::stringToColorCode(Auth::user()->{Config::get('chatter.user.database_field_with_user_name')}) ?>">
+		        					{{ strtoupper(substr(Auth::user()->{Config::get('chatter.user.database_field_with_user_name')}, 0, 1)) }}
+		        				</span>
+                        @endif
+                    </div>
+                    <input type="hidden" name="_token" id="csrf_token_field" value="{{ csrf_token() }}">
+                    <input type="hidden" name="chatter_discussion_id" value="{{ $discussion->id }}">
+                    <!-- BODY -->
+                    <div id="editor">
+                        <textarea class="trumbowyg" name="body" placeholder="Type Your Discussion Here...">{{ old('body') }}</textarea>
+                    </div>
+                    <button id="submit_response" class="btn btn-success pull-right"><i class="chatter-new"></i> @lang('chatter::messages.response.submit')</button>
+                </form>
+
+            </div>
+        </div><!-- #new_discussion -->
+    @elseif(!Auth::guest() && Auth::user()->hasRole('User') || !Auth::guest() && Auth::user()->hasRole('Administrator'))
         <div class="container-fluid" id="editor">
             <div class="d-flex mx-auto flex-row align-items-center align-items-stretch">
                 <div class="chatter_loader dark" id="new_discussion_loader">
@@ -295,7 +341,6 @@
         </div><!-- #new_discussion -->
     @elseif(!Auth::guest() && Auth::user()->hasRole('BannedFromPosting'))
         <h3>Banned from posting...</h3>
-
     @else
             <a class="btn btn-brand-white" href="{{route('login.steam')}}"><i class="fab fa-steam"></i> Sign in through Steam</a>
     @endif

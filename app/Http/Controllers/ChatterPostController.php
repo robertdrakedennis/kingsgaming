@@ -74,30 +74,38 @@ class ChatterPostController extends Controller
             $category = Models::category()->first();
         }
 
-        if ($new_post->id) {
-            $discussion->last_reply_at = $discussion->freshTimestamp();
-            $discussion->save();
-
-
-            // if email notifications are enabled
-            if (config('chatter.email.enabled')) {
-                // Send email notifications about new post
-                $this->sendEmailNotifications($new_post->discussion);
-            }
-
-            $chatter_alert = [
-                'chatter_alert_type' => 'success',
-                'chatter_alert'      => trans('chatter::alert.success.reason.submitted_to_post'),
-            ];
-
-            return redirect('/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$category->slug.'/'.$discussion->slug)->with($chatter_alert);
-        } else {
+        if($request->user()->hasRole('User') && $discussion->locked = 1){
             $chatter_alert = [
                 'chatter_alert_type' => 'danger',
-                'chatter_alert'      => trans('chatter::alert.danger.reason.trouble'),
+                'chatter_alert' => ':)'
             ];
+            return back()->with($chatter_alert)->withInput();
+        } elseif($request->user()->hasRole('Administrator') && $discussion->locked == 1 || $request->user()->hasRole('User') && $discussion->locked == 0) {
+            if ($new_post->id) {
+                $discussion->last_reply_at = $discussion->freshTimestamp();
+                $discussion->save();
 
-            return redirect('/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$category->slug.'/'.$discussion->slug)->with($chatter_alert);
+
+                // if email notifications are enabled
+                if (config('chatter.email.enabled')) {
+                    // Send email notifications about new post
+                    $this->sendEmailNotifications($new_post->discussion);
+                }
+
+                $chatter_alert = [
+                    'chatter_alert_type' => 'success',
+                    'chatter_alert' => trans('chatter::alert.success.reason.submitted_to_post'),
+                ];
+
+                return redirect('/' . config('chatter.routes.home') . '/' . config('chatter.routes.discussion') . '/' . $category->slug . '/' . $discussion->slug)->with($chatter_alert);
+            } else {
+                $chatter_alert = [
+                    'chatter_alert_type' => 'danger',
+                    'chatter_alert' => trans('chatter::alert.danger.reason.trouble'),
+                ];
+
+                return redirect('/' . config('chatter.routes.home') . '/' . config('chatter.routes.discussion') . '/' . $category->slug . '/' . $discussion->slug)->with($chatter_alert);
+            }
         }
     }
 
