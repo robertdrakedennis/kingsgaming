@@ -132,7 +132,7 @@ class ChatterDiscussionController extends Controller
         $post = Models::post()->create($new_post);
 
             if ($post) {
-                alert()->success('Post Created', 'Successfully!');
+                toast('Thread created successfully!','success','top-right');
                 return redirect('/' . config('chatter.routes.home') . '/' . config('chatter.routes.discussion') . '/' . $category->slug . '/' . $slug);
             } else {
                 alert()->error('Uh oh...', 'Something went wrong...');
@@ -159,7 +159,8 @@ class ChatterDiscussionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param string $category
+     * @param string $slug
      *
      * @return \Illuminate\Http\Response
      */
@@ -216,6 +217,7 @@ class ChatterDiscussionController extends Controller
         $discussion = Models::discussion()->findOrFail($id);
         $discussion->locked = 1;
         $discussion->save();
+        toast('Locked successfully!','success','top-right');
         return back()->withInput();
     }
 
@@ -231,6 +233,7 @@ class ChatterDiscussionController extends Controller
         $discussion = Models::discussion()->findOrFail($id);
         $discussion->locked = 0;
         $discussion->save();
+        toast('Unlocked successfully!','success','top-right');
         return back()->withInput();
     }
 
@@ -260,7 +263,7 @@ class ChatterDiscussionController extends Controller
         $discussion = Discussion::find($id);
         //dd($discussion);
         $discussion->delete();
-        alert()->success('Post Deleted', 'Successfully!');
+        toast('Destroyed successfully!','success','top-right');
         return redirect('/' . config('chatter.routes.home'));
     }
 
