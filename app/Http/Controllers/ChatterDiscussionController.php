@@ -182,30 +182,12 @@ class ChatterDiscussionController extends Controller
         $posts = Models::post()->with('user')->where('chatter_discussion_id', '=', $discussion->id)->orderBy(config('chatter.order_by.posts.order'), config('chatter.order_by.posts.by'))->simplePaginate();
 
         $author = DB::connection('mysql6')->table('users')->where('id', '=', $posts[0]->user_id)->get();
-
-        //dd($author[0]->name);
-
         $chatter_editor = config('chatter.editor');
 
         $discussion->increment('views');
-        
+
         return view('chatter::discussion', compact('discussion', 'posts', 'author','chatter_editor'));
 
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $discussion = Models::discussion()->findOrFail($id);
-        return view('front.editDiscussion')->with([
-            'discussion' => $discussion,
-        ]);
     }
 
     /**
@@ -218,6 +200,10 @@ class ChatterDiscussionController extends Controller
     public function lockDiscussion($id)
     {
         $discussion = Models::discussion()->findOrFail($id);
+        if (!Auth::user()->hasRole('Administrator')) {
+            alert()->question('owo', 'What\'s this?');
+            return redirect('/' . config('chatter.routes.home'));
+        }
         $discussion->locked = 1;
         $discussion->save();
         toast('Locked successfully!','success','top-right');
@@ -234,10 +220,37 @@ class ChatterDiscussionController extends Controller
     public function unlockDiscussion($id)
     {
         $discussion = Models::discussion()->findOrFail($id);
+        if (!Auth::user()->hasRole('Administrator')) {
+            alert()->question('owo', 'What\'s this?');
+            return redirect('/' . config('chatter.routes.home'));
+        }
         $discussion->locked = 0;
         $discussion->save();
         toast('Unlocked successfully!','success','top-right');
         return back()->withInput();
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $discussion = Models::discussion()->findOrFail($id);
+        if(Auth::user()->hasRole('Administrator') || Auth::user()->id == (int) $discussion->user_id) {
+            return view('front.editDiscussion')->with([
+                'discussion' => $discussion,
+            ]);
+        } elseif(Auth::user()->id !== $discussion->user_id){
+            return view('front.main')->with('error', 'Unauthorized page');
+        }
+
+        return view('front.editDiscussion')->with([
+            'discussion' => $discussion,
+        ]);
     }
 
 
@@ -251,7 +264,27 @@ class ChatterDiscussionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $discussion = Models::discussion()->findOrFail($id);
+
+        if (!$request->user()->hasRole('Administrator') || $request->user()->id !== (int) $discussion->user_id) {
+            alert()->question('owo', 'What\'s this?');
+            return redirect('/' . config('chatter.routes.home'));
+        } else
+
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|min:5|max:255',
+        ], [
+            'title.required' => trans('chatter::alert.danger.reason.title_required'),
+            'title.min' => 'The minimum length is 5 characters.',
+            'title.max' => 'The maximum length is 255 characters.']);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+            $discussion->title = $request->title;
+            $discussion->save();
+            toast('Updated successfully!','success','top-right');
+        return redirect('/' . config('chatter.routes.home'));
     }
 
     /**
@@ -264,7 +297,10 @@ class ChatterDiscussionController extends Controller
     public function destroy($id)
     {
         $discussion = Discussion::find($id);
-        //dd($discussion);
+        if (!Auth::user()->hasRole('Administrator') || Auth::user()->id !== (int) $discussion->user_id) {
+            alert()->question('owo', 'What\'s this?');
+            return redirect('/' . config('chatter.routes.home'));
+        } else
         $discussion->delete();
         toast('Destroyed successfully!','success','top-right');
         return redirect('/' . config('chatter.routes.home'));

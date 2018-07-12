@@ -155,10 +155,17 @@ class ChatterServiceProvider extends ServiceProvider
                     ]);
 
                     // Edit discussion view.
-                    Route::get('edit', [
+                    Route::put('edit', [
                         'as'         => 'edit',
                         'uses'       => 'ChatterDiscussionController@edit',
                         'middleware' => $authMiddleware('discussion.edit'),
+                    ]);
+
+                    // Update discussion view.
+                    Route::patch('update', [
+                        'as'         => 'update',
+                        'uses'       => 'ChatterDiscussionController@update',
+                        'middleware' => $authMiddleware('discussion.update'),
                     ]);
 
                     // Lock discussion view.

@@ -24,7 +24,7 @@
                 <div class="chatter_loader dark" id="new_discussion_loader">
                     <div></div>
                 </div>
-                <form class="d-flex mx-auto flex-column" action='/{{ Config::get('chatter.routes.home') }}/posts/{{$post->id}}' method='POST' enctype="multipart/form-data" accept-charset="UTF-8">
+                <form class="d-flex mx-auto flex-column" action='{{action('ChatterDiscussionController@update', $discussion->id)}}' method='POST' enctype="multipart/form-data" accept-charset="UTF-8">
                     {{ csrf_field() }}
                     @method('PATCH')
                     <div class="avatar mr-2">
@@ -43,12 +43,15 @@
                         @endif
                     </div>
                     <input type="hidden" name="_token" id="csrf_token_field" value="{{ csrf_token() }}">
-                    <input type="hidden" name="chatter_discussion_id" value="{{ $post->id }}">
+                    <input type="hidden" name="chatter_discussion_id" value="{{  $discussion->id }}">
                     <!-- BODY -->
-                    <div id="editor">
-                        <textarea class="trumbowyg" name="body" placeholder="Type Your Discussion Here...">{{ old('body') }}</textarea>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Title</span>
+                        </div>
+                        <input class="form-control" id="title" name="title" placeholder="A simple title..." value="" type="text">
                     </div>
-                    <button id="submit_response" class="btn btn-success pull-right"><i class="chatter-new"></i> @lang('chatter::messages.response.submit')</button>
+                    <button id="submit_response" type="submit" class="btn btn-success pull-right"><i class="chatter-new"></i> @lang('chatter::messages.response.submit')</button>
                 </form>
 
             </div>

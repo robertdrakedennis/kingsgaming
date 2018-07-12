@@ -41,7 +41,7 @@
             <li class="nav-item {{ Route::currentRouteName() !== 'forums' ?: 'active' }} px-2" data-aos="fade-up" data-aos-delay="250" data-aos-easing="ease-in-out-cubic">
                 <a class="nav-link text-warning" href="{{ route('chatter.home') }}">Forums(beta)</a>
             </li>
-            @if(Auth::user()->hasRole('Administrator'))
+            @if(!Auth::guest() && Auth::user()->hasRole('Administrator'))
                 <li class="nav-item {{ Route::currentRouteName() !== 'admin' ?: 'active' }} px-2" data-aos="fade-up" data-aos-delay="250" data-aos-easing="ease-in-out-cubic">
                     <a class="nav-link text-warning" href="{{ route('admin.index') }}">Admin Panel</a>
                 </li>

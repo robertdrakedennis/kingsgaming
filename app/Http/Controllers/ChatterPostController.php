@@ -123,8 +123,12 @@ class ChatterPostController extends Controller
     {
         $post =  Post::findOrFail($id);
 
-        //check for correct user
+        if (!Auth::user()->hasRole('Administrator') || Auth::user()->id !== (int) $post->user_id) {
+            alert()->question('owo', 'What\'s this?');
+            return redirect('/'.config('chatter.routes.home'));
+        }
 
+        //check for correct user
         if(Auth::user()->hasRole('Administrator')) {
             return view('front.editPost')->with([
                 'post' => $post
@@ -146,6 +150,7 @@ class ChatterPostController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $stripped_tags_body = ['body' => strip_tags($request->body)];
         $validator = Validator::make($stripped_tags_body, [
             'body' => 'required|min:10',
@@ -159,6 +164,11 @@ class ChatterPostController extends Controller
         }
 
         $post = Models::post()->find($id);
+
+        if (!$request->user()->hasRole('Administrator') || $request->user()->id !== (int) $post->user_id) {
+            alert()->question('owo', 'What\'s this?');
+            return redirect('/'.config('chatter.routes.home'));
+        }
         if (Auth::user()->hasRole('Administrator')) {
             if ($post->markdown) {
                 $post->body = $request->body;
@@ -173,10 +183,9 @@ class ChatterPostController extends Controller
             if (!isset($category->slug)) {
                 $category = Models::category()->first();
             }
-
             toast('Updated successfully!','success','top-right');
             return redirect('/'.config('chatter.routes.home').'/'.config('chatter.routes.discussion').'/'.$category->slug.'/'.$discussion->slug);
-        } elseif (!Auth::guest() && (Auth::user()->id == $post->user_id)) {
+        } elseif (!Auth::guest() && ($request->user()->id == $post->user_id)) {
             if ($post->markdown) {
                 $post->body = $request->body;
             } else {
@@ -214,7 +223,12 @@ class ChatterPostController extends Controller
     {
         $post = Models::post()->with('discussion')->findOrFail($id);
 
-        if($request->user()->hasrole('Administrator')){
+        if (!$request->user()->hasRole('Administrator') || $request->user()->id !== (int) $post->user_id) {
+            alert()->question('owo', 'What\'s this?');
+            return redirect('/'.config('chatter.routes.home'));
+        }
+
+        if($request->user()->hasrole('Administrator') || $request->user()->id == (int) $post->user_id){
             if ($post->discussion->posts()->oldest()->first()->id === $post->id) {
                 if(config('chatter.soft_deletes')) {
                     $post->discussion->posts()->delete();
@@ -233,15 +247,6 @@ class ChatterPostController extends Controller
 
             toast('Destroyed successfully!','success','top-right');
             return redirect($url);
-        }
-
-        if (!$request->user()->hasRole('Administrator')) {
-            alert()->question('owo', 'What\'s this?');
-            return redirect('/'.config('chatter.routes.home'));
-            
-        } elseif ($request->user()->id !== (int) $post->user_id) {
-            alert()->question('owo', 'What\'s this?');
-            return redirect('/'.config('chatter.routes.home'));
         }
 
         if ($post->discussion->posts()->oldest()->first()->id === $post->id) {

@@ -53,9 +53,9 @@
                 </div>
                 @if(!Auth::guest() && (Auth::user()->id == $discussion->user_id) && Auth::User()->hasRole('User'))
                     <div class="flex-row mx-auto my-auto px-1">
-                        <div class="btn btn-primary text-white-50 edit-post">
+                        <a class="btn btn-primary text-white-50 edit-post">
                             <i class="fas fa-pencil"></i> Coming soon...
-                        </div>
+                        </a>
                     </div>
                     <form class="flex-row mx-auto my-auto px-1" action="{{ action('ChatterDiscussionController@destroy',$discussion->id) }}" method="POST">
                         @csrf
@@ -66,9 +66,11 @@
                     <h2>Banned from posting...</h2>
                 @elseif(!Auth::guest() &&  Auth::User()->hasRole('Administrator'))
                     <div class="flex-row mx-auto my-auto px-1">
-                        <div class="btn btn-primary text-white-50 edit-post">
-                            <i class="fas fa-pencil"></i> Coming soon...
-                        </div>
+                        <form class="flex-row mx-auto my-auto px-1" action="{{ action('ChatterDiscussionController@edit',$discussion->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-danger">Test</button>
+                        </form>
                     </div>
                     <form class="flex-row mx-auto my-auto px-1" action="{{ action('ChatterDiscussionController@destroy',$discussion->id) }}" method="POST">
                         @csrf
