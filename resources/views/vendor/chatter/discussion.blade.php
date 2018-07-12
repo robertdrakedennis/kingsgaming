@@ -52,11 +52,13 @@
                     </div>
                 </div>
                 @if(!Auth::guest() && (Auth::user()->id == $discussion->user_id) && Auth::User()->hasRole('User'))
-                    <div class="flex-row mx-auto my-auto px-1">
-                        <a class="btn btn-primary text-white-50 edit-post">
-                            <i class="fas fa-pencil"></i> Coming soon...
-                        </a>
-                    </div>
+
+                        <form class="flex-row mx-auto my-auto px-1" action="{{ action('ChatterDiscussionController@edit',$discussion->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-primary">Edit Title</button>
+                        </form>
+
                     <form class="flex-row mx-auto my-auto px-1" action="{{ action('ChatterDiscussionController@destroy',$discussion->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
@@ -65,13 +67,13 @@
                 @elseif(!Auth::guest() && (Auth::user()->id == $discussion->user_id) && Auth::User()->hasRole('BannedFromPosting'))
                     <h2>Banned from posting...</h2>
                 @elseif(!Auth::guest() &&  Auth::User()->hasRole('Administrator'))
-                    <div class="flex-row mx-auto my-auto px-1">
+
                         <form class="flex-row mx-auto my-auto px-1" action="{{ action('ChatterDiscussionController@edit',$discussion->id) }}" method="POST">
                             @csrf
                             @method('PUT')
-                            <button type="submit" class="btn btn-danger">Test</button>
+                            <button type="submit" class="btn btn-primary">Edit Title</button>
                         </form>
-                    </div>
+
                     <form class="flex-row mx-auto my-auto px-1" action="{{ action('ChatterDiscussionController@destroy',$discussion->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
@@ -87,7 +89,7 @@
                         <form class="flex-row mx-auto my-auto px-1" action="{{ action('ChatterDiscussionController@lockDiscussion', $discussion->id) }}" method="POST">
                             @csrf
                             @method('PUT')
-                            <button type="submit" class="btn btn-danger">Lock Thread</button>
+                            <button type="submit" class="btn btn-warning">Lock Thread</button>
                         </form>
                         @endif
                 @endif
