@@ -16,8 +16,8 @@ class IndexController extends Controller
     public function index()
     {
         $Query = new SourceQuery();
-        $ip = '198.27.80.155';
-        $port = 27752;
+        $ip = '208.103.169.207';
+        $port = 27015;
         $timeout = 1;
         $engine = SourceQuery::SOURCE;
 
@@ -49,10 +49,10 @@ class IndexController extends Controller
                 'discordChannels' => $discordChannels,
                 'discordUsers' => $discordUsers,
                 'memberCount' => $memberCount,
-                'calc' => $calc
+                'calc' => 100
             ]);
         } catch (Exception $e) {
-            echo $e->getMessage();
+            dd($e->getMessage());
         }
             $Query->Disconnect();
         }

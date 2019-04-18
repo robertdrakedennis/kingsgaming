@@ -24,5 +24,5 @@ return [
     /*
      * API key (http://steamcommunity.com/dev/apikey)
      */
-    'api_key' => env('STEAM_API_KEY', '727651FF4C2F14A9ECFF5067C9D06184'),
+    'api_key' => env('STEAM_API_KEY', '40357C3A4B92429EFE3B6EEA0A67776E'),
 ];

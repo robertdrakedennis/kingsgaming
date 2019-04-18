@@ -21,36 +21,30 @@
                 <p class="lead text-center"  data-aos-delay="350" data-aos-easing="ease-in-out-cubic">A server filled with custom content and awesome players!</p>
             </div>
         </div>
-        <div class="row">
-            <div class="card-deck mx-auto">
-                <div class="card bg-brand-darkest-grey text-white mb-5 h-auto w-65 border-0 mx-3 px-5"  data-aos="fade-up" data-aos-delay="150" data-aos-easing="ease-in-out-cubic">
-                    <div class="card-body">
-                        <div class="h-100 d-flex flex-column justify-content-center">
-                            <h5 class="card-title text-center mt-auto"><i class="fab fa-discord"></i> {{str_limit($discordServerName, $limit = 35, $send="...")}}</h5>
-                            <p class="card-text text-center h6 pb-2">{{$discordUsers}} online right now!</p>
-                            <a href="{{route('discord')}}" class="btn btn-light justify-content-end mt-auto">Join our Discord!</a>
+        <div class="row justify-content-center">
+            <div class="card-deck">
+                    <div class="card bg-brand-darkest-grey text-white mb-5 h-auto w-65 border-0 mx-3 px-5"  data-aos="fade-up" data-aos-delay="150" data-aos-easing="ease-in-out-cubic">
+                        <div class="card-body d-flex flex-column justify-content-center">
+                                <h5 class="card-title text-center mt-auto"><i class="fab fa-discord"></i> {{str_limit($discordServerName, $limit = 35, $send="...")}}</h5>
+                                <p class="card-text text-center h6 pb-2">{{$discordUsers}} online right now!</p>
+                                <a href="{{route('discord')}}" class="btn btn-light justify-content-end mt-auto">Join our Discord!</a>
                         </div>
                     </div>
-                </div>
-                <div class="card bg-brand-darkest-grey text-white mb-5 h-auto w-65 border-0 mx-3 px-5"  data-aos="fade-up" data-aos-delay="350" data-aos-easing="ease-in-out-cubic">
-                    <div class="card-body">
-                        <div class="h-100 d-flex flex-column justify-content-center">
-                            <h5 class="card-title text-center mt-auto"><i class="fas fa-server"></i> {{str_limit($serverInfo['HostName'], $limit = 25, $send="...")}}</h5>
-                            <div class="progress mb-3" style="height: 1.2rem;">
-                                <div class="progress-bar @if($calc <= 25) bg-success @elseif($calc >= 50) bg-warning @elseif($calc >= 75) bg-danger @else bg-success @endif" style="width: {{$calc}}%" role="progressbar" aria-valuenow="{{$serverInfo['Players']}}" aria-valuemin="0" aria-valuemax="{{$serverInfo['MaxPlayers']}}">{{$serverInfo['Players']}}/{{$serverInfo['MaxPlayers']}}</div></div>
-                            <a href="{{route('server')}}" class="btn btn-light justify-content-end mt-auto">Connect now!</a>
+                    <div class="card bg-brand-darkest-grey text-white mb-5 h-auto w-65 border-0 mx-3 px-5"  data-aos="fade-up" data-aos-delay="350" data-aos-easing="ease-in-out-cubic">
+                        <div class="card-body d-flex flex-column justify-content-center">
+                                <h5 class="card-title text-center mt-auto"><i class="fas fa-server"></i> {{str_limit($serverInfo['HostName'], $limit = 25, $send="...")}}</h5>
+                                <div class="progress mb-3" style="height: 1.2rem;">
+                                    <div class="progress-bar @if($calc <= 25) bg-success @elseif($calc >= 50) bg-warning @elseif($calc >= 75) bg-danger @else bg-success @endif" style="width: {{$calc}}%" role="progressbar" aria-valuenow="{{$serverInfo['Players']}}" aria-valuemin="0" aria-valuemax="{{$serverInfo['MaxPlayers']}}">{{$serverInfo['Players']}}/{{$serverInfo['MaxPlayers']}}</div></div>
+                                <a href="{{route('server')}}" class="btn btn-light justify-content-end mt-auto">Connect now!</a>
                         </div>
                     </div>
-                </div>
-                <div class="card bg-brand-darkest-grey text-white mb-5 h-auto w-65 border-0 mx-3 px-5"  data-aos="fade-up" data-aos-delay="550" data-aos-easing="ease-in-out-cubic">
-                    <div class="card-body">
-                        <div class="h-100 d-flex flex-column justify-content-center">
-                            <h5 class="card-title text-center justify-content-center mt-auto"><i class="fab fa-steam"></i> Kingsgaming</h5>
-                            <p class="card-text text-center h6">Total Members: {{ $memberCount }}</p>
-                            <a href="{{route('steam')}}" class="btn btn-light justify-content-end mt-auto">Join our Community!</a>
+                    <div class="card bg-brand-darkest-grey text-white mb-5 h-auto w-65 border-0 mx-3 px-5"  data-aos="fade-up" data-aos-delay="550" data-aos-easing="ease-in-out-cubic">
+                        <div class="card-body d-flex flex-column justify-content-center">
+                                <h5 class="card-title text-center justify-content-center mt-auto"><i class="fab fa-steam"></i> Kingsgaming</h5>
+                                <p class="card-text text-center h6">Total Members: {{ $memberCount }}</p>
+                                <a href="{{route('steam')}}" class="btn btn-light justify-content-end mt-auto">Join our Community!</a>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
     </div>
